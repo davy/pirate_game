@@ -1,0 +1,9 @@
+.autotest
+History.rdoc
+Manifest.txt
+README.md
+Rakefile
+imgs/pirate_ship.png
+imgs/pirate_ship_sm.png
+lib/game_master.rb
+lib/pirate_game_launch_screen.rb
