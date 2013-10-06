@@ -1,26 +1,13 @@
 require 'shuttlecraft/mothership'
-require 'pirate_command'
-
-class Stage
-  attr_accessor :level, :all_items
-
-  def initialize(level)
-    @level = level
-    generate_all_items
-  end
-
-  def time_left
-  end
-
-  def generate_all_items
-    while @all_items.length < 20
-      thing = PirateCommand.thing
-      @all_items << thing unless @all_items.include?(thing)
-    end
-  end
-end
 
 class GameMaster < Shuttlecraft::Mothership
+
+  VERSION = '0.0.1'
+  attr_accessor :stage
+
+  def initialize
+
+  end
 
 end
 
@@ -63,3 +50,5 @@ Shoes.app width: 360, height: 360, resizeable: false, title: 'Game Master' do
 
   launch_screen
 end
+
+require 'stage'
