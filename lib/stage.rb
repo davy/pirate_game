@@ -1,13 +1,14 @@
 require 'pirate_command'
 
 class Stage
-  attr_accessor :level, :players, :all_items
+  attr_accessor :level, :players, :all_items, :actions_completed
 
   ITEMS_PER_BRIDGE = 6
 
   def initialize(level, players)
     @level = level
     @players = players
+    @actions_completed = []
     generate_all_items
 
     @begin_time = Time.now
@@ -30,4 +31,13 @@ class Stage
   def bridge_for_player
     @boards.shift
   end
+
+  def complete action, from
+    @actions_completed << [action, from]
+  end
+
+  def passed?
+    @actions_completed.length >= @players*3
+  end
+
 end
