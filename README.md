@@ -11,7 +11,6 @@ Game Master
    * creates bridge for each player
    * provides list of total bridge items
    * Actions completed
-   * Missed actions
    * Difficulty level
    * Time left
    * booty collected
