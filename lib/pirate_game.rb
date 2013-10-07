@@ -3,5 +3,5 @@ module PirateGame
 end
 
 require 'pirate_game/app'
-require 'game_master'
+require 'pirate_game/game_master'
 require 'pirate_game/stage'

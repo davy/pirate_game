@@ -1,6 +1,6 @@
 require 'shuttlecraft/mothership'
 
-class GameMaster < Shuttlecraft::Mothership
+class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   attr_accessor :stage
 

@@ -1,10 +1,10 @@
 require 'minitest/autorun'
-require 'game_master'
+require 'pirate_game'
 
-class TestGameMaster < MiniTest::Unit::TestCase
+class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
   def setup
-    @game_master = GameMaster.new('Foo')
+    @game_master = PirateGame::GameMaster.new('Foo')
   end
 
   def test_initialize
