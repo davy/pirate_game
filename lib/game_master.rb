@@ -5,50 +5,26 @@ class GameMaster < Shuttlecraft::Mothership
   VERSION = '0.0.1'
   attr_accessor :stage
 
-  def initialize
+  def initialize(name)
+    super(name)
 
-  end
-
-end
-
-Shoes.app width: 360, height: 360, resizeable: false, title: 'Game Master' do
-  @game_master = nil
-
-  def launch_screen
-    clear do
-      background black
-      title "Start Game", stroke: white
-      edit_line text: 'Name' do |s|
-        @name = s.text
-      end
-      button('launch') {
-        @game_master = GameMaster.new(@name)
-        display_screen
-      }
-    end
-  end
-
-  def display_screen
-    clear do
-      background "#ffffff"
-
-      stack :margin => 20 do
-        title "Game #{@game_master.name}"
-
-        stack do
-          para 'Registered Services:'
-          @registrations = para
-        end
-      end
-      animate(5) { @registrations.replace registrations_text }
-    end
+    @stage = nil
   end
 
   def registrations_text
-    @game_master.registered_services.join(', ') if @game_master
+    registered_services.join(', ')
   end
 
-  launch_screen
+  def start
+    players = registered_services.length
+    @stage =
+      if @stage then
+        Stage.new @stage.level + 1, players
+      else
+        Stage.new 1, players
+      end
+  end
+
 end
 
 require 'stage'
