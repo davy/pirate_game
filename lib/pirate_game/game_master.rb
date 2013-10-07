@@ -11,16 +11,28 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   end
 
   def registrations_text
-    registered_services.join(', ')
+    "Num Players: #{num_players}\n" +
+    registered_services.collect{|name,_| name}.join(', ')
+  end
+
+  def stage_info
+    return unless @stage
+    "Stage #{@stage.level}: \n" +
+    "Actions Completed: #{@stage.actions_completed.size}\n" +
+    "Time Left: #{@stage.time_left.to_i} seconds\n" +
+    "Status: #{@stage.status}"
+  end
+
+  def num_players
+    registered_services.length
   end
 
   def start
-    players = registered_services.length
     @stage =
       if @stage then
-        PirateGame::Stage.new @stage.level + 1, players
+        PirateGame::Stage.new @stage.level + 1, num_players
       else
-        PirateGame::Stage.new 1, players
+        PirateGame::Stage.new 1, num_players
       end
   end
 

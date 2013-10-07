@@ -11,8 +11,8 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
     assert_nil @game_master.stage
   end
 
-  def test_registrations_text_empty
-    assert_empty @game_master.registrations_text
+  def test_num_players_empty
+    assert_equal 0, @game_master.num_players
   end
 
   def test_start

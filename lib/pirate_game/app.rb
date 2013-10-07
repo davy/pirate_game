@@ -28,11 +28,16 @@ class PirateGame::App
             title "Game #{@game_master.name}"
 
             stack do
-              para 'Registered Services:'
+              button ('start stage') { @game_master.start }
               @registrations = para
+              @stage_info = para
+              @status = para
             end
           end
-          animate(5) { @registrations.replace @game_master.registrations_text }
+          animate(5) {
+            @registrations.replace @game_master.registrations_text
+            @stage_info.replace @game_master.stage_info
+          }
         end
       end
 

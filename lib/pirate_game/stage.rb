@@ -1,9 +1,11 @@
 require 'pirate_command'
 
 class PirateGame::Stage
-  attr_accessor :level, :players, :all_items, :actions_completed
+  attr_accessor :level, :players, :all_items,
+    :actions_completed, :begin_time
 
   ITEMS_PER_BRIDGE = 6
+  DURATION = 60
 
   def initialize(level, players)
     @level = level
@@ -15,7 +17,15 @@ class PirateGame::Stage
   end
 
   def time_left
-    (@begin_time + 120) - Time.now
+    [0, (begin_time + DURATION) - Time.now].max
+  end
+
+  def status
+    if time_left > 0
+      'In Progress'
+    else
+      passed? ? 'Success' : 'Failure'
+    end
   end
 
   def generate_all_items
@@ -36,8 +46,12 @@ class PirateGame::Stage
     @actions_completed << [action, from]
   end
 
+  def required_actions
+    @players*3 + 1
+  end
+
   def passed?
-    @actions_completed.length >= @players*3
+    @actions_completed.length >= required_actions
   end
 
 end

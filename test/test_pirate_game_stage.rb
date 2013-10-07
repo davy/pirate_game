@@ -8,7 +8,26 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
   end
 
   def test_time_left
-    assert_operator 120, :>=, @stage.time_left
+    assert_operator 60, :>=, @stage.time_left
+    assert_operator 58, :<, @stage.time_left
+  end
+
+  def test_status_in_progress
+    assert_equal 'In Progress', @stage.status
+  end
+
+  def test_status_success
+    10.times { @stage.complete 'foo', 'bar' }
+
+    complete_stage
+
+    assert_equal 'Success', @stage.status
+  end
+
+  def test_status_failed
+    complete_stage
+
+    assert_equal 'Failure', @stage.status
   end
 
   def test_generate_all_items
@@ -34,10 +53,14 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
     assert_equal 1, @stage.actions_completed.length
   end
 
+  def test_required_actions
+    assert_equal 10, @stage.required_actions
+  end
+
   def test_stage_passed_eh
     refute @stage.passed?
 
-    8.times do
+    9.times do
       @stage.complete 'foo', 'bar'
     end
 
@@ -46,6 +69,12 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
     @stage.complete 'for', 'the win'
 
     assert @stage.passed?
+  end
+
+  def complete_stage
+    def @stage.begin_time
+      Time.now - 360
+    end
   end
 
 end
