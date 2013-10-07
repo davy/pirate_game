@@ -73,8 +73,8 @@ class PirateGame::ClientApp
                 @registrations.replace registrations_text
 
                 @msg_stack.clear do
-                  for msg in @client.msg_log
-                    para msg
+                  for msg, name in @client.msg_log
+                    para "#{name} said: #{msg}"
                   end
                 end
               end
@@ -95,6 +95,7 @@ class PirateGame::ClientApp
 
               button("Send") {
                 @client.broadcast(el.text)
+                el.text = ''
               }
               stack do
                 para 'Registered Services:'

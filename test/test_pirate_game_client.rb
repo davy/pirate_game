@@ -18,7 +18,15 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
 
     refute_empty @client.msg_log
 
-    assert_includes @client.msg_log, 'Hello'
+    assert_equal 2, @client.msg_log.length
+    assert_includes @client.msg_log.collect{|msg, name| msg}, 'Hello'
+    assert_includes @client.msg_log.collect{|msg, name| name}, 'Davy'
+  end
+
+  def test_get_name_from_uri
+    make_services
+
+    assert_equal 'Davy', @client.get_name_from_uri(DRb.uri)
   end
 
   def make_services

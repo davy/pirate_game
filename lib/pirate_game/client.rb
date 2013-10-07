@@ -24,7 +24,8 @@ class PirateGame::Client < Shuttlecraft
 
   def say(msg, from)
     @msg_log_mutex.synchronize do
-      @msg_log << msg
+      name = get_name_from_uri(from)
+      @msg_log << [msg, name || 'unknown']
     end
     begin
       remote = DRbObject.new_with_uri(from)
@@ -35,5 +36,10 @@ class PirateGame::Client < Shuttlecraft
 
   def message_reciept(from)
     puts "reciept from #{from}"
+  end
+
+  def get_name_from_uri(uri)
+    from = registered_services.detect{|n, u| uri == u}
+    from[0] if from
   end
 end
