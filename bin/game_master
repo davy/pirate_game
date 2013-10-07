@@ -1,0 +1,6 @@
+#!/usr/bin/env shoes
+
+require 'pirate_game'
+
+PirateGame::App.run
+
