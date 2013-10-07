@@ -1,6 +1,6 @@
 require 'pirate_command'
 
-class Stage
+class PirateGame::Stage
   attr_accessor :level, :players, :all_items, :actions_completed
 
   ITEMS_PER_BRIDGE = 6

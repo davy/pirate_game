@@ -1,10 +1,10 @@
 require 'minitest/autorun'
-require 'stage'
+require 'pirate_game'
 
-class TestStage < MiniTest::Unit::TestCase
+class TestPirateGameStage < MiniTest::Unit::TestCase
 
   def setup
-    @stage = Stage.new 1, 3
+    @stage = PirateGame::Stage.new 1, 3
   end
 
   def test_time_left

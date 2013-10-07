@@ -2,7 +2,6 @@ require 'shuttlecraft/mothership'
 
 class GameMaster < Shuttlecraft::Mothership
 
-  VERSION = '0.0.1'
   attr_accessor :stage
 
   def initialize(name)
@@ -19,12 +18,11 @@ class GameMaster < Shuttlecraft::Mothership
     players = registered_services.length
     @stage =
       if @stage then
-        Stage.new @stage.level + 1, players
+        PirateGame::Stage.new @stage.level + 1, players
       else
-        Stage.new 1, players
+        PirateGame::Stage.new 1, players
       end
   end
 
 end
 
-require 'stage'
