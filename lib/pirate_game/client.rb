@@ -1,4 +1,5 @@
 require 'shuttlecraft'
+require 'thread'
 
 class PirateGame::Client < Shuttlecraft
 
@@ -8,7 +9,9 @@ class PirateGame::Client < Shuttlecraft
     super(name)
     @app = app
     @msg_log = []
+    @msg_log_mutex = Mutex.new
   end
+
   def broadcast(msg)
     for name,uri in registered_services
       begin
@@ -20,7 +23,9 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def say(msg, from)
-    @msg_log << msg
+    @msg_log_mutex.synchronize do
+      @msg_log << msg
+    end
     begin
       remote = DRbObject.new_with_uri(from)
       remote.message_reciept(@name)

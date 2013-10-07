@@ -1,4 +1,3 @@
-require 'shoes'
 require 'pirate_game'
 
 class PirateGame::App
