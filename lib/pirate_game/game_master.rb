@@ -21,10 +21,25 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   def stage_info
     return unless @stage
-    "Stage #{@stage.level}: \n" +
-    "Actions Completed: #{@stage.actions_completed.size}\n" +
-    "Time Left: #{@stage.time_left.to_i} seconds\n" +
-    "Status: #{@stage.status}"
+
+    info = "Stage #{@stage.level}: \n"
+    if @stage.in_progress?
+      info << "Actions: #{@stage.actions_completed.size}\n"
+      info << "Time Left: #{@stage.time_left.to_i} seconds\n"
+    else
+      info << "Status: #{@stage.status}\n"
+
+      rundown = @stage.rundown
+
+      info << "Total Actions: #{rundown[:total_actions]}\n"
+
+      rundown[:player_breakdown].each do |player_uri, actions|
+        info << "#{player_uri}: #{actions}\n"
+      end
+
+    end
+
+    info
   end
 
   def num_players

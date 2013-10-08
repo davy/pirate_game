@@ -14,6 +14,9 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
 
   def test_status_in_progress
     assert_equal 'In Progress', @stage.status
+    assert @stage.in_progress?
+    refute @stage.failure?
+    refute @stage.success?
   end
 
   def test_status_success
@@ -22,12 +25,18 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
     complete_stage
 
     assert_equal 'Success', @stage.status
+    assert @stage.success?
+    refute @stage.in_progress?
+    refute @stage.failure?
   end
 
   def test_status_failed
     complete_stage
 
     assert_equal 'Failure', @stage.status
+    assert @stage.failure?
+    refute @stage.success?
+    refute @stage.in_progress?
   end
 
   def test_generate_all_items

@@ -7,6 +7,10 @@ class PirateGame::Stage
   ITEMS_PER_BRIDGE = 6
   DURATION = 60
 
+  IN_PROGRESS = 'In Progress'
+  SUCCESS = 'Success'
+  FAILURE = 'Failure'
+
   def initialize(level, players)
     @level = level
     @players = players
@@ -22,10 +26,22 @@ class PirateGame::Stage
 
   def status
     if time_left > 0
-      'In Progress'
+      IN_PROGRESS
     else
-      passed? ? 'Success' : 'Failure'
+      passed? ? SUCCESS : FAILURE
     end
+  end
+
+  def in_progress?
+    status == IN_PROGRESS
+  end
+
+  def success?
+    status == SUCCESS
+  end
+
+  def failure?
+    status == FAILURE
   end
 
   def generate_all_items
@@ -43,7 +59,7 @@ class PirateGame::Stage
   end
 
   def complete action, from
-    @actions_completed << [action, from]
+    @actions_completed << {action: action, performer: from}
   end
 
   def required_actions
@@ -52,6 +68,21 @@ class PirateGame::Stage
 
   def passed?
     @actions_completed.length >= required_actions
+  end
+
+  def rundown
+    return if status == IN_PROGRESS
+
+    rundown = {total_actions: @actions_completed.length}
+    rundown[:player_breakdown] = {}
+
+    @actions_completed.collect{|a| a[:performer]}.uniq.each do |p|
+      actions = @actions_completed.select{|a| a[:performer] == p}
+
+      rundown[:player_breakdown][p] = actions.length
+    end
+
+    rundown
   end
 
 end
