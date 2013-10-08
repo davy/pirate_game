@@ -91,6 +91,8 @@ class PirateGame::ClientApp
             if @registered
               button("Unregister") { unregister }
 
+              button("Test Action") { @client.perform_action }
+
               el = edit_line
 
               button("Send") {

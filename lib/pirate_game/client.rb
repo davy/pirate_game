@@ -12,6 +12,12 @@ class PirateGame::Client < Shuttlecraft
     @msg_log_mutex = Mutex.new
   end
 
+  def perform_action
+    if @mothership
+      @mothership.write [:action, 'Testing', Time.now, DRb.uri]
+    end
+  end
+
   def broadcast(msg)
     for name,uri in registered_services
       begin

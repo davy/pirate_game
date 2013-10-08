@@ -8,6 +8,8 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     super(name)
 
     @stage = nil
+
+    @action_watcher = create_action_watcher
   end
 
   def registrations_text
@@ -34,6 +36,18 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
       else
         PirateGame::Stage.new 1, num_players
       end
+  end
+
+  def create_action_watcher
+    Thread.new do
+      loop do
+        handle_action @ts.take([:action, nil, nil, nil])
+      end
+    end
+  end
+
+  def handle_action action_array
+    @stage.complete action_array[1], action_array[3]
   end
 
 end
