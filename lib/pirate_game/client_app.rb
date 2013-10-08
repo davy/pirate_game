@@ -24,7 +24,7 @@ class PirateGame::ClientApp
       def select_game_screen
         clear do
           background black
-          title "Select Game", stroke: white
+          title "Choose Game", stroke: white
 
           stack do
             motherships = @client.find_all_motherships
@@ -38,10 +38,11 @@ class PirateGame::ClientApp
               button(mothership[:name]) {|b|
                 begin
                   @client.initiate_communication_with_mothership(b.text)
+                  @client.register
                 rescue
                   select_game_screen
                 end
-                display_screen
+                pub_screen
               }
             end
 
@@ -52,27 +53,28 @@ class PirateGame::ClientApp
         end
       end
 
-      def display_screen
+      def pub_screen
         clear do
           stack :margin => 20 do
-            title "Client #{@client.name}"
+            title "Pirate Pub"
+            tagline "Welcome #{@client.name}"
 
             stack do @status = para end
 
             @registered = nil
             @updating_area = stack
-            @msg_stack = stack
+            @chat_room = stack
           end
 
+          # checks for registration changes
+          # updates chat messages
           animate(5) {
             if @client
 
               detect_registration_change
 
               if @registered
-                @registrations.replace registrations_text
-
-                @msg_stack.clear do
+                @chat_room.clear do
                   for msg, name in @client.msg_log
                     para "#{name} said: #{msg}"
                   end
@@ -89,8 +91,6 @@ class PirateGame::ClientApp
           @status.replace "#{"Not " unless @registered}Registered"
           @updating_area.clear do
             if @registered
-              button("Unregister") { unregister }
-
               button("Test Action") { @client.perform_action }
 
               el = edit_line
@@ -99,10 +99,6 @@ class PirateGame::ClientApp
                 @client.broadcast(el.text)
                 el.text = ''
               }
-              stack do
-                para 'Registered Services:'
-                @registrations = para
-              end
             else
               button("Register")    { register }
             end
@@ -111,17 +107,12 @@ class PirateGame::ClientApp
       end
 
 
-
       def register
         @client.register if @client
       end
 
       def unregister
         @client.unregister if @client
-      end
-
-      def registrations_text
-        @client.registered_services.join(', ') if @client
       end
 
       launch_screen
