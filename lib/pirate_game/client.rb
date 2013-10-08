@@ -14,6 +14,10 @@ class PirateGame::Client < Shuttlecraft
     @msg_log_mutex = Mutex.new
   end
 
+  def teammates
+    registered_services.collect{|name,_| name}
+  end
+
   def perform_action
     if @mothership
       @mothership.write [:action, 'Testing', Time.now, DRb.uri]

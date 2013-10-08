@@ -11,6 +11,13 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     assert_empty @client.msg_log
   end
 
+  def test_teammates
+    make_services
+
+    assert_includes @client.teammates, 'Davy'
+    assert_includes @client.teammates, 'Eric'
+  end
+
   def test_broadcast
     make_services
 
