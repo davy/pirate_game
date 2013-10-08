@@ -27,16 +27,19 @@ class PirateGame::App
           stack :margin => 20 do
             title "Game #{@game_master.name}"
 
-            stack do
-              button ('start stage') { @game_master.start }
-              @registrations = para
-              @stage_info = para
-              @status = para
-            end
+            @stuff = stack
           end
           animate(5) {
-            @registrations.replace @game_master.registrations_text
-            @stage_info.replace @game_master.stage_info
+            @stuff.clear do
+              if @game_master.startable?
+                button ('start stage') {
+                  @game_master.start
+                }
+              end
+
+              para @game_master.registrations_text
+              para @game_master.stage_info
+            end
           }
         end
       end

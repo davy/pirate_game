@@ -2,6 +2,10 @@ require 'shuttlecraft/mothership'
 
 class PirateGame::GameMaster < Shuttlecraft::Mothership
 
+
+  MIN_PLAYERS = 1 # for now
+  MAX_PLAYERS = 4
+
   attr_accessor :stage
 
   def initialize(opts={})
@@ -46,7 +50,12 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     registered_services.length
   end
 
+  def startable?
+    num_players >= MIN_PLAYERS && num_players <= MAX_PLAYERS
+  end
+
   def start
+    return unless startable?
     @stage =
       if @stage then
         PirateGame::Stage.new @stage.level + 1, num_players
