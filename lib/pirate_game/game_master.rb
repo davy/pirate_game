@@ -4,8 +4,10 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   attr_accessor :stage
 
-  def initialize(name)
-    super(name)
+  def initialize(opts={})
+    opts[:protocol] ||= PirateGame::Protocol.default
+
+    super(opts)
 
     @stage = nil
 

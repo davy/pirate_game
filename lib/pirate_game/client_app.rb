@@ -15,7 +15,7 @@ class PirateGame::ClientApp
             @name = s.text
           end
           button('launch') {
-            @client = PirateGame::Client.new(@name, @my_app)
+            @client = PirateGame::Client.new(name: @name)
             select_game_screen
           }
         end

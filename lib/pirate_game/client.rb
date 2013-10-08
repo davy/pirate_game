@@ -5,9 +5,11 @@ class PirateGame::Client < Shuttlecraft
 
   attr_reader :msg_log
 
-  def initialize(name, app)
-    super(name)
-    @app = app
+  def initialize(opts={})
+    opts[:protocol] ||= PirateGame::Protocol.default
+
+    super(opts)
+
     @msg_log = []
     @msg_log_mutex = Mutex.new
   end

@@ -14,7 +14,7 @@ class PirateGame::App
             @name = s.text
           end
           button('launch') {
-            @game_master = PirateGame::GameMaster.new(@name)
+            @game_master = PirateGame::GameMaster.new(name: @name)
             display_screen
           }
         end

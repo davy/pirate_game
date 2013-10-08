@@ -4,7 +4,7 @@ require 'pirate_game'
 class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
   def setup
-    @game_master = PirateGame::GameMaster.new('Foo')
+    @game_master = PirateGame::GameMaster.new(name: 'Foo')
   end
 
   def test_initialize

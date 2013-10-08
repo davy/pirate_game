@@ -4,7 +4,7 @@ require 'pirate_game'
 class TestPirateGameClient < MiniTest::Unit::TestCase
 
   def setup
-    @client = PirateGame::Client.new('foo', nil)
+    @client = PirateGame::Client.new(name: 'foo')
   end
 
   def test_initialize
