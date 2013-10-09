@@ -2,5 +2,5 @@
 
 require 'pirate_game'
 
-PirateGame::App.run
+PirateGame::MasterApp.run
 

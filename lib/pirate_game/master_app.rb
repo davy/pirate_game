@@ -1,4 +1,4 @@
-class PirateGame::App
+class PirateGame::MasterApp
 
   def self.run
     new.run
