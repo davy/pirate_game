@@ -1,5 +1,3 @@
-require 'pirate_game'
-
 class PirateGame::App
 
   def self.run
