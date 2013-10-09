@@ -1,9 +1,15 @@
 class PirateGame::App
 
   def self.run
-    Shoes.app width: 360, height: 360, resizeable: false, title: 'Game Master' do
-      @game_master = nil
+    new.run
+  end
 
+  def initialize
+    @game_master = nil
+  end
+
+  def run
+    Shoes.app width: 360, height: 360, resizeable: false, title: 'Game Master' do
       def launch_screen
         clear do
           background black
