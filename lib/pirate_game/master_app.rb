@@ -25,6 +25,8 @@ class PirateGame::MasterApp
       end
 
       def display_screen
+        @game_master.update
+
         clear do
           background "#ffffff"
 

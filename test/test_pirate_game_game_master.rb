@@ -21,11 +21,16 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
     make_services
 
+    refute @game_master.startable?
+
+    @game_master.update
+
     assert @game_master.startable?
   end
 
   def test_start
     make_services
+    @game_master.update
 
     @game_master.start
 

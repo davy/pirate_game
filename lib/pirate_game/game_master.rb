@@ -59,8 +59,6 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   end
 
   def startable?
-    update
-
     @num_players >= MIN_PLAYERS && @num_players <= MAX_PLAYERS
   end
 
@@ -90,6 +88,8 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   # Retrieves the latest data from the TupleSpace.
 
   def update
+    return unless update?
+
     services = registered_services
 
     @num_players = services.length
