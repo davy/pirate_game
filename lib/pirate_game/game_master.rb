@@ -8,19 +8,30 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   attr_accessor :stage
 
+  ##
+  # Number of players in the game.  Call #update to refresh
+
+  attr_reader :num_players
+
+  ##
+  # Names of players in the game.  Call #update to refresh
+
+  attr_reader :player_names
+
   def initialize(opts={})
     opts[:protocol] ||= PirateGame::Protocol.default
 
     super(opts)
 
-    @stage = nil
+    @num_players  = 0
+    @player_names = []
+    @stage        = nil
 
     @action_watcher = create_action_watcher
   end
 
   def registrations_text
-    "Num Players: #{num_players}\n" +
-    registered_services.collect{|name,_| name}.join(', ')
+    "Num Players: #{@num_players}\n#{@player_names.join(', ')}"
   end
 
   def stage_info
@@ -46,21 +57,19 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     info
   end
 
-  def num_players
-    registered_services.length
-  end
-
   def startable?
-    num_players >= MIN_PLAYERS && num_players <= MAX_PLAYERS
+    update
+
+    @num_players >= MIN_PLAYERS && @num_players <= MAX_PLAYERS
   end
 
   def start
     return unless startable?
     @stage =
       if @stage then
-        PirateGame::Stage.new @stage.level + 1, num_players
+        PirateGame::Stage.new @stage.level + 1, @num_players
       else
-        PirateGame::Stage.new 1, num_players
+        PirateGame::Stage.new 1, @num_players
       end
   end
 
@@ -74,6 +83,17 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   def handle_action action_array
     @stage.complete action_array[1], action_array[3]
+  end
+
+  ##
+  # Retrieves the latest data from the TupleSpace.
+
+  def update
+    services = registered_services
+
+    @num_players = services.length
+
+    @player_names = services.map { |name,| name }
   end
 
 end

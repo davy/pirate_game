@@ -11,16 +11,6 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
     assert_nil @game_master.stage
   end
 
-  def test_num_players_empty
-    assert_equal 0, @game_master.num_players
-  end
-
-  def test_num_players
-    make_services
-
-    assert_equal 2, @game_master.num_players
-  end
-
   def test_startable_eh
     assert_equal 0, @game_master.num_players
     refute @game_master.startable?
@@ -44,6 +34,21 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
     @game_master.start
 
     assert_equal 2, @game_master.stage.level
+  end
+
+  def test_update
+    assert_equal 0, @game_master.num_players
+    assert_empty @game_master.player_names
+
+    make_services
+
+    assert_equal 0, @game_master.num_players
+    assert_empty @game_master.player_names
+
+    @game_master.update
+
+    assert_equal 2, @game_master.num_players
+    assert_equal %w[Davy Eric], @game_master.player_names.sort
   end
 
   def make_services
