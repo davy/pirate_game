@@ -23,6 +23,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
     super(opts)
 
+    @last_update  = Time.at 0
     @num_players  = 0
     @player_names = []
     @stage        = nil
@@ -94,6 +95,18 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     @num_players = services.length
 
     @player_names = services.map { |name,| name }
+  end
+
+  ##
+  # A game is only updatable if it hasn't been updated in the last two
+  # seconds.  This prevents DRb message spam.
+
+  def update?
+    now = Time.now
+
+    return false if @last_update + 2 > now
+
+    @last_update = now
   end
 
 end

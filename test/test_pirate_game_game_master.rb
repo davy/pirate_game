@@ -51,6 +51,12 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
     assert_equal %w[Davy Eric], @game_master.player_names.sort
   end
 
+  def test_update_eh
+    assert @game_master.update?
+
+    refute @game_master.update?
+  end
+
   def make_services
     def @game_master.registered_services
       [['Davy', DRb.uri], ['Eric', DRb.uri]]
