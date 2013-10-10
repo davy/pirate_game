@@ -75,6 +75,8 @@ class PirateGame::ClientApp
 
               if @registered
                 @chat_room.clear do
+                  caption "In the Pub"
+                  para @client.teammates.join(', ')
                   for msg, name in @client.msg_log
                     para "#{name} said: #{msg}"
                   end
