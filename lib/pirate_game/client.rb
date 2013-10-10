@@ -18,9 +18,9 @@ class PirateGame::Client < Shuttlecraft
     registered_services.collect{|name,_| name}
   end
 
-  def perform_action
+  def perform_action action
     if @mothership
-      @mothership.write [:action, 'Testing', Time.now, DRb.uri]
+      @mothership.write [:action, action, Time.now, DRb.uri]
     end
   end
 

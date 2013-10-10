@@ -91,7 +91,7 @@ class PirateGame::ClientApp
           @status.replace "#{"Not " unless @registered}Registered"
           @updating_area.clear do
             if @registered
-              button("Test Action") { @client.perform_action }
+              button("Test Action") { @client.perform_action 'Test Action' }
 
               el = edit_line
 
