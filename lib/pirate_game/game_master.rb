@@ -59,6 +59,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   end
 
   def startable?
+    update
     @num_players >= MIN_PLAYERS && @num_players <= MAX_PLAYERS
   end
 
@@ -70,6 +71,8 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
       else
         PirateGame::Stage.new 1, @num_players
       end
+
+    return true
   end
 
   def create_action_watcher
@@ -91,25 +94,13 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   # Retrieves the latest data from the TupleSpace.
 
   def update
-    return unless update?
+    ret = super
 
-    services = registered_services
+    @num_players = registered_services.length
 
-    @num_players = services.length
+    @player_names = registered_services.map { |name,| name }
 
-    @player_names = services.map { |name,| name }
-  end
-
-  ##
-  # A game is only updatable if it hasn't been updated in the last two
-  # seconds.  This prevents DRb message spam.
-
-  def update?
-    now = Time.now
-
-    return false if @last_update + 2 > now
-
-    @last_update = now
+    ret
   end
 
 end
