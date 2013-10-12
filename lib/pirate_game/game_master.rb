@@ -72,7 +72,23 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
         PirateGame::Stage.new 1, @num_players
       end
 
+    send_start_to_clients
+
     return true
+  end
+
+  def send_start_to_clients
+    for name,uri in registered_services
+      begin
+        bridge = @stage.bridge_for_player
+
+        remote = DRbObject.new_with_uri(uri)
+        remote.start_stage(bridge)
+      rescue DRb::DRbConnError
+      rescue => e
+        #puts "hmm #{e.message}"
+      end
+    end
   end
 
   def create_action_watcher

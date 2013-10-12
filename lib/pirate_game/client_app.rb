@@ -84,6 +84,21 @@ class PirateGame::ClientApp
               end
             end
           }
+          animate(5) {
+            stage_screen if @client.bridge
+          }
+        end
+      end
+
+      def stage_screen
+        clear do
+          stack :margin => 20 do
+            title "Ahoy!"
+
+            for item in @client.bridge.items
+              button(item) {|b| @client.perform_action b.text }
+            end
+          end
         end
       end
 
@@ -107,7 +122,6 @@ class PirateGame::ClientApp
           end
         end
       end
-
 
       def register
         @client.register if @client

@@ -3,15 +3,20 @@ require 'thread'
 
 class PirateGame::Client < Shuttlecraft
 
-  attr_reader :msg_log
+  attr_reader :msg_log, :bridge
 
   def initialize(opts={})
     opts[:protocol] ||= PirateGame::Protocol.default
 
     super(opts)
 
+    @bridge = nil
     @msg_log = []
     @msg_log_mutex = Mutex.new
+  end
+
+  def start_stage(items)
+    @bridge = PirateGame::Bridge.new(items)
   end
 
   def teammates
