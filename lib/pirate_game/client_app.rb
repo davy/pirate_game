@@ -36,16 +36,9 @@ module PirateGame
                 else
                   subtitle "Select Game", stroke: Boot::COLORS[:light]
                 end
+
                 for mothership in motherships
-                  button(mothership[:name]) {|b|
-                    begin
-                      @client.initiate_communication_with_mothership(b.text)
-                      @client.register
-                    rescue
-                      select_game_screen
-                    end
-                    pub_screen
-                  }
+                  draw_mothership_button mothership
                 end
 
                 button('rescan') {
@@ -160,6 +153,18 @@ module PirateGame
               end
             end
           end
+        end
+
+        def draw_mothership_button mothership
+          button(mothership[:name]) {|b|
+            begin
+              @client.initiate_communication_with_mothership(b.text)
+              @client.register
+            rescue
+              select_game_screen
+            end
+            pub_screen
+          }
         end
 
         def register
