@@ -141,11 +141,11 @@ module PirateGame
         end
 
         def detect_registration_change
-          if @registered != @client.registered?
-            @registered = @client.registered?
+          return if @client.registered? == @registered
 
-            @status.replace "#{"Not " unless @registered}Registered"
-          end
+          @registered = @client.registered?
+
+          @status.replace "#{"Not " unless @registered}Registered"
         end
 
         def register
