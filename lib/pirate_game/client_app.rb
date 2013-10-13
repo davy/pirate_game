@@ -77,22 +77,7 @@ module PirateGame
               if @client
                 draw_updating_area
 
-                if @registered
-                  @chat_room.clear do
-                    if @client.waiting? then
-                      para 'Click "Test Button"'
-                    else
-                      para 'AVAST!!'
-                      @client.issue_command 'Test Button'
-                    end
-
-                    caption "Pub Chat: #{@client.teammates.join(', ')}", stroke: Boot::COLORS[:light]
-
-                    for msg, name in @client.msg_log
-                      para "#{name} said: #{msg}", stroke: Boot::COLORS[:light]
-                    end
-                  end
-                end
+                draw_chat_room
               end
             }
             @start_stage_animation = animate(5) {
@@ -133,6 +118,24 @@ module PirateGame
           @status.replace "#{"Not " unless @registered}Registered"
 
           yield
+        end
+
+        def draw_chat_room
+          if @registered
+            @chat_room.clear do
+              if @client.waiting? then
+                para 'Click "Test Button"'
+              else
+                para 'AVAST!!'
+                @client.issue_command 'Test Button'
+              end
+
+              caption "Pub Chat: #{@client.teammates.join(', ')}", stroke: Boot::COLORS[:light]
+              for msg, name in @client.msg_log
+                para "#{name} said: #{msg}", stroke: Boot::COLORS[:light]
+              end
+            end
+          end
         end
 
         def draw_updating_area
