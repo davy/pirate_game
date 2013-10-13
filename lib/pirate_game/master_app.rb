@@ -45,6 +45,8 @@ module PirateGame
             animate(5) {
               detect_startable_change
 
+              detect_stage_status_change
+
               @registrations.replace @game_master.registrations_text
               @stage_info.replace @game_master.stage_info
             }
@@ -61,6 +63,21 @@ module PirateGame
                   @game_master.start
                 }
               end
+            end
+          end
+        end
+
+        def detect_stage_status_change
+          return unless @game_master.stage
+          if @stage_status != @game_master.stage.status
+            @stage_status = @game_master.stage.status
+
+            if @game_master.stage.in_progress?
+              # nothing? send message to clients here?
+            elsif @game_master.stage.success?
+              @game_master.send_return_to_pub_to_clients
+            elsif @game_master.stage.failure?
+              # game failure goes here
             end
           end
         end

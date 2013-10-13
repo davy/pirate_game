@@ -60,6 +60,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   def startable?
     update
+    (@stage.nil? || !@stage.in_progress?) &&
     @num_players >= MIN_PLAYERS && @num_players <= MAX_PLAYERS
   end
 
@@ -78,16 +79,15 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   end
 
   def send_start_to_clients
-    for name,uri in registered_services
-      begin
-        bridge = @stage.bridge_for_player
+    send_to_clients do |client|
+      bridge = @stage.bridge_for_player
+      client.start_stage(bridge)
+    end
+  end
 
-        remote = DRbObject.new_with_uri(uri)
-        remote.start_stage(bridge)
-      rescue DRb::DRbConnError
-      rescue => e
-        #puts "hmm #{e.message}"
-      end
+  def send_return_to_pub_to_clients
+    send_to_clients do |client|
+      client.return_to_pub
     end
   end
 
@@ -119,5 +119,18 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     ret
   end
 
+  private
+
+  def send_to_clients
+    for name,uri in registered_services
+      begin
+        remote = DRbObject.new_with_uri(uri)
+        yield remote
+      rescue DRb::DRbConnError
+      rescue => e
+        puts "hmm #{e.message}"
+      end
+    end
+  end
 end
 

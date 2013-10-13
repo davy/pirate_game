@@ -36,6 +36,10 @@ class PirateGame::Client < Shuttlecraft
     @bridge = PirateGame::Bridge.new(items)
   end
 
+  def return_to_pub
+    @bridge = nil
+  end
+
   def teammates
     registered_services.collect{|name,_| name}
   end
