@@ -126,6 +126,10 @@ module PirateGame
                 button("Test Action") { @client.perform_action 'Test Action' }
                 button("Test Button") { @client.clicked 'Test Button' }
 
+                if @client.waiting? then
+                  para 'Click "Test Button"'
+                end
+
                 el = edit_line
 
                 button("Send") {

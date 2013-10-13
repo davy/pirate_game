@@ -15,12 +15,19 @@ class PirateGame::Client < Shuttlecraft
     @msg_log_mutex = Mutex.new
 
     @completion_time = 30
+    @command_thread = nil
   end
 
   def clicked button
     renewer = Rinda::SimpleRenewer.new @completion_time
 
     @mothership.write [:button, button, Time.now.to_i, DRb.uri], renewer
+  end
+
+  def issue_command action
+    @command_thread = Thread.new do
+      wait_for_action action
+    end
   end
 
   def start_stage(items)
@@ -73,6 +80,10 @@ class PirateGame::Client < Shuttlecraft
     _, _, _, from = @mothership.read [:button, action, (now...now + 30), nil]
 
     @mothership.write [:action, action, Time.now, from]
+  end
+
+  def waiting?
+    @command_thread and @command_thread.alive?
   end
 
 end

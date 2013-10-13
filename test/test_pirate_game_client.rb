@@ -28,6 +28,18 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     assert_equal DRb.uri, tuple.shift
   end
 
+  def test_issue_command
+    @client.issue_command 'Test'
+
+    assert @client.waiting?
+
+    @client.clicked 'Test'
+
+    Thread.pass
+
+    refute @client.waiting?
+  end
+
   def test_teammates
     make_services
 
@@ -65,6 +77,14 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     assert_equal 'Test',  action.shift
     assert_kind_of Time,  action.shift
     assert_equal DRb.uri, action.shift
+  end
+
+  def test_waiting_eh
+    refute @client.waiting?
+
+    @client.issue_command 'Test'
+
+    assert @client.waiting?
   end
 
   def make_services
