@@ -57,6 +57,7 @@ module PirateGame
         end
 
         def pub_screen
+          @return_to_pub_animation.remove if @return_to_pub_animation
           clear do
             background Boot::COLORS[:pub]
             stack :margin => 20 do
@@ -72,9 +73,8 @@ module PirateGame
 
             # checks for registration changes
             # updates chat messages
-            animate(5) {
+            @pub_animation = animate(5) {
               if @client
-
                 detect_registration_change
 
                 if @registered
@@ -88,13 +88,16 @@ module PirateGame
                 end
               end
             }
-            animate(5) {
+            @start_stage_animation = animate(5) {
               stage_screen if @client.bridge
             }
           end
         end
 
         def stage_screen
+          @pub_animation.remove if @pub_animation
+          @start_stage_animation.remove if @start_stage_animation
+
           clear do
             background Boot::COLORS[:sky]
             stack :margin => 20 do
@@ -106,7 +109,7 @@ module PirateGame
                 end
               end
             end
-            animate(5) {
+            @return_to_pub_animation = animate(5) {
               pub_screen unless @client.bridge
             }
           end
@@ -115,7 +118,9 @@ module PirateGame
         def detect_registration_change
           if @registered != @client.registered?
             @registered = @client.registered?
+
             @status.replace "#{"Not " unless @registered}Registered"
+
             @updating_area.clear do
               if @registered
                 button("Test Action") { @client.perform_action 'Test Action' }
@@ -123,8 +128,10 @@ module PirateGame
                 el = edit_line
 
                 button("Send") {
-                  @client.broadcast(el.text)
-                  el.text = ''
+                  unless el.text.empty?
+                    @client.broadcast(el.text)
+                    el.text = ''
+                  end
                 }
               else
                 button("Register")    { register }
