@@ -4,11 +4,28 @@ require 'pirate_game'
 class TestPirateGameClient < MiniTest::Unit::TestCase
 
   def setup
+    @ts = Rinda::TupleSpace.new
+
     @client = PirateGame::Client.new(name: 'foo')
+
+    @client.instance_variable_set :@mothership, @ts
   end
 
   def test_initialize
     assert_empty @client.msg_log
+  end
+
+  def test_clicked
+    make_services
+
+    @client.clicked 'Test'
+
+    tuple = @ts.read [:button, nil, nil, nil]
+
+    assert_equal :button, tuple.shift
+    assert_equal 'Test',  tuple.shift
+    assert_includes (Time.now.to_i - 1..Time.now.to_i), tuple.shift
+    assert_equal DRb.uri, tuple.shift
   end
 
   def test_teammates

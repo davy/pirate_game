@@ -124,6 +124,7 @@ module PirateGame
             @updating_area.clear do
               if @registered
                 button("Test Action") { @client.perform_action 'Test Action' }
+                button("Test Button") { @client.clicked 'Test Button' }
 
                 el = edit_line
 

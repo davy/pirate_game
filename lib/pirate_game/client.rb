@@ -15,6 +15,10 @@ class PirateGame::Client < Shuttlecraft
     @msg_log_mutex = Mutex.new
   end
 
+  def clicked button
+    @mothership.write [:button, button, Time.now.to_i, DRb.uri]
+  end
+
   def start_stage(items)
     @bridge = PirateGame::Bridge.new(items)
   end
