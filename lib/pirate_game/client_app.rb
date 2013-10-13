@@ -82,14 +82,16 @@ module PirateGame
                     button("Test Action") { @client.perform_action 'Test Action' }
                     button("Test Button") { @client.clicked 'Test Button' }
 
-                    el = edit_line
+                    flow do
+                      el = edit_line
 
-                    button("Send") {
-                      unless el.text.empty?
-                        @client.broadcast(el.text)
-                        el.text = ''
-                      end
-                    }
+                      button("Send") {
+                        unless el.text.empty?
+                          @client.broadcast(el.text)
+                          el.text = ''
+                        end
+                      }
+                    end
                   else
                     button("Register")    { register }
                   end
@@ -104,8 +106,8 @@ module PirateGame
                       @client.issue_command 'Test Button'
                     end
 
-                    caption "In the Pub", stroke: Boot::COLORS[:light]
-                    para @client.teammates.join(', '), stroke: Boot::COLORS[:light]
+                    caption "Pub Chat: #{@client.teammates.join(', ')}", stroke: Boot::COLORS[:light]
+
                     for msg, name in @client.msg_log
                       para "#{name} said: #{msg}", stroke: Boot::COLORS[:light]
                     end
@@ -126,7 +128,7 @@ module PirateGame
           clear do
             background Boot::COLORS[:sky]
             stack :margin => 20 do
-              title "Ahoy!", stroke: Boot::COLORS[:dark]
+              title PirateCommand.exclaim!, stroke: Boot::COLORS[:dark]
 
               @button_flow = flow do
                 for item in @client.bridge.items
