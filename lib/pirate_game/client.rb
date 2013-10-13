@@ -60,7 +60,6 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def message_reciept(from)
-    puts "reciept from #{from}"
   end
 
   def get_name_from_uri(uri)
