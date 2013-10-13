@@ -40,6 +40,27 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     refute @client.waiting?
   end
 
+  def test_start_stage
+    assert_nil @client.bridge
+
+    @client.start_stage(['foo', 'bar'])
+
+    assert @client.bridge
+
+    assert_includes @client.bridge.items, 'foo'
+    assert_includes @client.bridge.items, 'bar'
+  end
+
+  def test_return_to_pub
+    @client.start_stage(['foo', 'bar'])
+
+    assert @client.bridge
+
+    @client.return_to_pub
+
+    assert_nil @client.bridge
+  end
+
   def test_teammates
     make_services
 
