@@ -79,6 +79,13 @@ module PirateGame
 
                 if @registered
                   @chat_room.clear do
+                    if @client.waiting? then
+                      para 'Click "Test Button"'
+                    else
+                      para 'AVAST!!'
+                      @client.issue_command 'Test Button'
+                    end
+
                     caption "In the Pub", stroke: Boot::COLORS[:light]
                     para @client.teammates.join(', '), stroke: Boot::COLORS[:light]
                     for msg, name in @client.msg_log
@@ -125,10 +132,6 @@ module PirateGame
               if @registered
                 button("Test Action") { @client.perform_action 'Test Action' }
                 button("Test Button") { @client.clicked 'Test Button' }
-
-                if @client.waiting? then
-                  para 'Click "Test Button"'
-                end
 
                 el = edit_line
 
