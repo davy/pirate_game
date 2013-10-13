@@ -5,6 +5,8 @@ class PirateGame::Client < Shuttlecraft
 
   attr_reader :msg_log, :bridge
 
+  attr_accessor :completion_time
+
   def initialize(opts={})
     opts[:protocol] ||= PirateGame::Protocol.default
 
@@ -77,9 +79,13 @@ class PirateGame::Client < Shuttlecraft
   def wait_for_action action
     now = Time.now.to_i
 
-    _, _, _, from = @mothership.read [:button, action, (now...now + 30), nil]
+    renewer = Rinda::SimpleRenewer.new @completion_time
+
+    _, _, _, from =
+      @mothership.read [:button, action, (now...now + 30), nil], renewer
 
     @mothership.write [:action, action, Time.now, from]
+  rescue Rinda::RequestExpiredError
   end
 
   def waiting?

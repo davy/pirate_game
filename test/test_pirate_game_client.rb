@@ -79,6 +79,13 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     assert_equal DRb.uri, action.shift
   end
 
+  def test_wait_for_action_expired
+    @client.completion_time = 0
+    @client.wait_for_action 'Test'
+
+    assert true, 'did not hang up'
+  end
+
   def test_waiting_eh
     refute @client.waiting?
 
