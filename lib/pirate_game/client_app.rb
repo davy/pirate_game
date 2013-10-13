@@ -5,59 +5,69 @@ class PirateGame::ClientApp
   def self.run
     @my_app = Shoes.app width: 360, height: 360, resizeable: false, title: 'Pirate Game' do
 
+      @dark_color = dimgray
+      @light_color = gainsboro
+      @sky_color = aqua
+      @pub_color = darkred
+
       @client = nil
 
       def launch_screen
         clear do
-          background black
-          title "What's your name", stroke: white
-          el = edit_line text: 'Name' do |s|
-            @name = s.text
-          end
-          button('launch') {
-            @client = PirateGame::Client.new(name: @name)
-            select_game_screen
-          }
-        end
-      end
-
-      def select_game_screen
-        clear do
-          background black
-          title "Choose Game", stroke: white
-
-          stack do
-            motherships = @client.find_all_motherships
-
-            if motherships.empty?
-              subtitle "No Games Found", stroke: white
-            else
-              subtitle "Select Game", stroke: white
+          background @dark_color
+          stack margin: 20 do
+            title "What's your name", stroke: @light_color
+            el = edit_line text: 'Name' do |s|
+              @name = s.text
             end
-            for mothership in motherships
-              button(mothership[:name]) {|b|
-                begin
-                  @client.initiate_communication_with_mothership(b.text)
-                  @client.register
-                rescue
-                  select_game_screen
-                end
-                pub_screen
-              }
-            end
-
-            button('rescan') {
+            button('launch') {
+              @client = PirateGame::Client.new(name: @name)
               select_game_screen
             }
           end
         end
       end
 
+      def select_game_screen
+        clear do
+          background @dark_color
+          stack :margin => 20 do
+            title "Choose Game", stroke: @light_color
+
+            stack do
+              motherships = @client.find_all_motherships
+
+              if motherships.empty?
+                subtitle "No Games Found", stroke: @light_color
+              else
+                subtitle "Select Game", stroke: @light_color
+              end
+              for mothership in motherships
+                button(mothership[:name]) {|b|
+                  begin
+                    @client.initiate_communication_with_mothership(b.text)
+                    @client.register
+                  rescue
+                    select_game_screen
+                  end
+                  pub_screen
+                }
+              end
+
+              button('rescan') {
+                select_game_screen
+              }
+            end
+          end
+        end
+      end
+
       def pub_screen
         clear do
+          background @pub_color
           stack :margin => 20 do
-            title "Pirate Pub"
-            tagline "Welcome #{@client.name}"
+            title "Pirate Pub", stroke: @light_color
+            tagline "Welcome #{@client.name}", stroke: @light_color
 
             stack do @status = para end
 
@@ -75,10 +85,10 @@ class PirateGame::ClientApp
 
               if @registered
                 @chat_room.clear do
-                  caption "In the Pub"
-                  para @client.teammates.join(', ')
+                  caption "In the Pub", stroke: @light_color
+                  para @client.teammates.join(', '), stroke: @light_color
                   for msg, name in @client.msg_log
-                    para "#{name} said: #{msg}"
+                    para "#{name} said: #{msg}", stroke: @light_color
                   end
                 end
               end
@@ -92,11 +102,14 @@ class PirateGame::ClientApp
 
       def stage_screen
         clear do
+          background @sky_color
           stack :margin => 20 do
-            title "Ahoy!"
+            title "Ahoy!", stroke: @dark_color
 
-            for item in @client.bridge.items
-              button(item) {|b| @client.perform_action b.text }
+            @button_flow = flow do
+              for item in @client.bridge.items
+                button(item) {|b| @client.perform_action b.text }
+              end
             end
           end
         end
