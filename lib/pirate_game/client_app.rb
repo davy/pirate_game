@@ -75,27 +75,7 @@ module PirateGame
             # updates chat messages
             @pub_animation = animate(5) {
               if @client
-                detect_registration_change
-
-                @updating_area.clear do
-                  if @registered
-                    button("Test Action") { @client.perform_action 'Test Action' }
-                    button("Test Button") { @client.clicked 'Test Button' }
-
-                    flow do
-                      el = edit_line
-
-                      button("Send") {
-                        unless el.text.empty?
-                          @client.broadcast(el.text)
-                          el.text = ''
-                        end
-                      }
-                    end
-                  else
-                    button("Register")    { register }
-                  end
-                end
+                draw_updating_area
 
                 if @registered
                   @chat_room.clear do
@@ -142,12 +122,41 @@ module PirateGame
           end
         end
 
+        ##
+        # If the registration state has changed, yields to the block.
+
         def detect_registration_change
           return if @client.registered? == @registered
 
           @registered = @client.registered?
 
           @status.replace "#{"Not " unless @registered}Registered"
+
+          yield
+        end
+
+        def draw_updating_area
+          detect_registration_change do
+            @updating_area.clear do
+              if @registered
+                button("Test Action") { @client.perform_action 'Test Action' }
+                button("Test Button") { @client.clicked 'Test Button' }
+
+                flow do
+                  el = edit_line
+
+                  button("Send") {
+                    unless el.text.empty?
+                      @client.broadcast(el.text)
+                      el.text = ''
+                    end
+                  }
+                end
+              else
+                button("Register")    { register }
+              end
+            end
+          end
         end
 
         def register
