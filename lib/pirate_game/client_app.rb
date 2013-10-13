@@ -77,6 +77,24 @@ module PirateGame
               if @client
                 detect_registration_change
 
+                @updating_area.clear do
+                  if @registered
+                    button("Test Action") { @client.perform_action 'Test Action' }
+                    button("Test Button") { @client.clicked 'Test Button' }
+
+                    el = edit_line
+
+                    button("Send") {
+                      unless el.text.empty?
+                        @client.broadcast(el.text)
+                        el.text = ''
+                      end
+                    }
+                  else
+                    button("Register")    { register }
+                  end
+                end
+
                 if @registered
                   @chat_room.clear do
                     if @client.waiting? then
@@ -127,24 +145,6 @@ module PirateGame
             @registered = @client.registered?
 
             @status.replace "#{"Not " unless @registered}Registered"
-
-            @updating_area.clear do
-              if @registered
-                button("Test Action") { @client.perform_action 'Test Action' }
-                button("Test Button") { @client.clicked 'Test Button' }
-
-                el = edit_line
-
-                button("Send") {
-                  unless el.text.empty?
-                    @client.broadcast(el.text)
-                    el.text = ''
-                  end
-                }
-              else
-                button("Register")    { register }
-              end
-            end
           end
         end
 
