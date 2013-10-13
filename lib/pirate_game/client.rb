@@ -13,10 +13,14 @@ class PirateGame::Client < Shuttlecraft
     @bridge = nil
     @msg_log = []
     @msg_log_mutex = Mutex.new
+
+    @completion_time = 30
   end
 
   def clicked button
-    @mothership.write [:button, button, Time.now.to_i, DRb.uri]
+    renewer = Rinda::SimpleRenewer.new @completion_time
+
+    @mothership.write [:button, button, Time.now.to_i, DRb.uri], renewer
   end
 
   def start_stage(items)
