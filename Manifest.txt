@@ -8,12 +8,14 @@ bin/game_master
 imgs/pirate_ship.png
 imgs/pirate_ship_sm.png
 lib/pirate_game.rb
+lib/pirate_game/boot.rb
 lib/pirate_game/bridge.rb
 lib/pirate_game/client.rb
 lib/pirate_game/client_app.rb
 lib/pirate_game/game_master.rb
 lib/pirate_game/master_app.rb
 lib/pirate_game/protocol.rb
+lib/pirate_game/shoes4_patch.rb
 lib/pirate_game/stage.rb
 lib/pirate_game_launch_screen.rb
 test/test_pirate_game_bridge.rb

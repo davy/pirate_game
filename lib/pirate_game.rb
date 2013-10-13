@@ -9,3 +9,6 @@ require 'pirate_game/master_app'
 require 'pirate_game/stage'
 require 'pirate_game/bridge'
 require 'pirate_game/protocol'
+require 'pirate_game/boot'
+
+require 'pirate_game/shoes4_patch'
