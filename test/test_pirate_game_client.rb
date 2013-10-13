@@ -53,6 +53,20 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     assert_equal 'Davy', @client.get_name_from_uri(DRb.uri)
   end
 
+  def test_wait_for_action
+    @client.clicked 'Test'
+
+    @client.wait_for_action 'Test'
+
+    action = @ts.read [:action, nil, nil, nil]
+
+    action.shift
+
+    assert_equal 'Test',  action.shift
+    assert_kind_of Time,  action.shift
+    assert_equal DRb.uri, action.shift
+  end
+
   def make_services
     def @client.registered_services
       [['Davy', DRb.uri], ['Eric', DRb.uri]]

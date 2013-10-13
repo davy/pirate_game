@@ -66,4 +66,13 @@ class PirateGame::Client < Shuttlecraft
     from = registered_services.detect{|n, u| uri == u}
     from[0] if from
   end
+
+  def wait_for_action action
+    now = Time.now.to_i
+
+    _, _, _, from = @mothership.read [:button, action, (now...now + 30), nil]
+
+    @mothership.write [:action, action, Time.now, from]
+  end
+
 end
