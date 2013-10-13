@@ -43,13 +43,7 @@ module PirateGame
               @stage_info = para stroke: Boot::COLORS[:dark]
             end
             animate(5) {
-              @button_stack.clear do
-                if @game_master.startable?
-                  button('start stage') {
-                    @game_master.start
-                  }
-                end
-              end
+              detect_startable_change
 
               @registrations.replace @game_master.registrations_text
               @stage_info.replace @game_master.stage_info
@@ -57,11 +51,11 @@ module PirateGame
           end
         end
 
-        def detect_status_change
+        def detect_startable_change
           if @startable != @game_master.startable?
             @startable = @game_master.startable?
 
-            @stuff.clear do
+            @button_stack.clear do
               if @startable
                 button('start stage') {
                   @game_master.start
