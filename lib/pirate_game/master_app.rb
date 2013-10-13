@@ -54,31 +54,33 @@ module PirateGame
         end
 
         def detect_startable_change
-          if @startable != @game_master.startable?
-            @startable = @game_master.startable?
+          return if @startable == @game_master.startable?
 
-            @button_stack.clear do
-              if @startable
-                button('start stage') {
-                  @game_master.start
-                }
-              end
+          @startable = @game_master.startable?
+
+          @button_stack.clear do
+            if @startable
+              button('start stage') {
+                @game_master.start
+              }
             end
           end
         end
 
         def detect_stage_status_change
           return unless @game_master.stage
-          if @stage_status != @game_master.stage.status
-            @stage_status = @game_master.stage.status
+          return if @stage_status == @game_master.stage.status
 
-            if @game_master.stage.in_progress?
-              # nothing? send message to clients here?
-            elsif @game_master.stage.success?
-              @game_master.send_return_to_pub_to_clients
-            elsif @game_master.stage.failure?
-              # game failure goes here
-            end
+          @stage_status = @game_master.stage.status
+
+          if @game_master.stage.in_progress?
+            # nothing? send message to clients here?
+
+          elsif @game_master.stage.success?
+            @game_master.send_return_to_pub_to_clients
+
+          elsif @game_master.stage.failure?
+            # game failure goes here
           end
         end
 
