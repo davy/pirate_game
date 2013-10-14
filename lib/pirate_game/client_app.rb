@@ -18,9 +18,29 @@ module PirateGame
               end
               button('launch') {
                 @client = Client.new(name: @name)
-                select_game_screen
               }
             end
+            @state_watcher = animate(5) {
+              watch_state
+            }
+          end
+        end
+
+        def watch_state
+          return if @client.nil?
+          return if @state == @client.state
+
+          @state = @client.state
+
+          case @state
+          when :select_game
+            select_game_screen
+          when :pub
+            pub_screen
+          when :stage
+            stage_screen
+          when :end
+            end_screen
           end
         end
 
@@ -52,7 +72,6 @@ module PirateGame
         end
 
         def pub_screen
-          @return_to_pub_animation.remove if @return_to_pub_animation
           clear do
             background Boot::COLORS[:pub]
             stack :margin => 20 do
@@ -75,15 +94,11 @@ module PirateGame
                 draw_chat_room
               end
             }
-            @start_stage_animation = animate(5) {
-              stage_screen if @client.bridge
-            }
           end
         end
 
         def stage_screen
           @pub_animation.remove if @pub_animation
-          @start_stage_animation.remove if @start_stage_animation
 
           clear do
             background Boot::COLORS[:sky]
@@ -98,9 +113,15 @@ module PirateGame
                 end
               end
             end
-            @return_to_pub_animation = animate(5) {
-              pub_screen unless @client.bridge
-            }
+          end
+        end
+
+        def end_screen
+          clear do
+            background Boot::COLORS[:dark]
+            stack margin: 20 do
+              title "END OF GAME", stroke: Boot::COLORS[:light]
+            end
           end
         end
 
@@ -188,7 +209,6 @@ module PirateGame
             rescue
               select_game_screen
             end
-            pub_screen
           }
         end
 

@@ -80,7 +80,7 @@ module PirateGame
             @game_master.send_return_to_pub_to_clients
 
           elsif @game_master.stage.failure?
-            # game failure goes here
+            @game_master.send_end_game_to_clients
           end
         end
 

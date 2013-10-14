@@ -91,6 +91,12 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     end
   end
 
+  def send_end_game_to_clients
+    send_to_clients do |client|
+      client.end_game
+    end
+  end
+
   def create_action_watcher
     Thread.new do
       loop do

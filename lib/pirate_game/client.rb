@@ -4,7 +4,9 @@ require 'timeout'
 
 class PirateGame::Client < Shuttlecraft
 
-  attr_reader :msg_log, :bridge
+  STATES = [:select_game, :pub, :stage, :end]
+
+  attr_reader :state, :msg_log, :bridge
 
   ##
   # The time the last command was issued
@@ -23,6 +25,8 @@ class PirateGame::Client < Shuttlecraft
 
     super(opts)
 
+    set_state :select_game
+
     @bridge          = nil
     @command_start   = nil
     @command_thread  = nil
@@ -38,7 +42,15 @@ class PirateGame::Client < Shuttlecraft
     @command_start - Time.now + @completion_time
   end
 
+  def set_state state
+    if STATES.include? state
+      @state = state
+    end
+  end
+
   def clicked button
+    renewer = Rinda::SimpleRenewer.new @completion_time
+
     @mothership.write [:button, button, Time.now.to_i, DRb.uri], renewer
   end
 
@@ -52,12 +64,23 @@ class PirateGame::Client < Shuttlecraft
     @current_action = action
   end
 
+  def register
+    set_state :pub
+    super
+  end
+
   def start_stage(items)
     @bridge = PirateGame::Bridge.new(items)
+    set_state :stage
   end
 
   def return_to_pub
     @bridge = nil
+    set_state :pub
+  end
+
+  def end_game
+    set_state :end
   end
 
   def teammates

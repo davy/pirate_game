@@ -13,6 +13,18 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
 
   def test_initialize
     assert_empty @client.msg_log
+    assert_nil @client.bridge
+    assert_equal :select_game, @client.state
+  end
+
+  def test_set_state
+    @client.set_state :pub
+
+    assert_equal :pub, @client.state
+
+    @client.set_state :foobar
+
+    assert_equal :pub, @client.state
   end
 
   def test_action_time_left
