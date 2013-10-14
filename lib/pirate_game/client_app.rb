@@ -4,6 +4,8 @@ module PirateGame
     def self.run
       @my_app = Shoes.app width: 360, height: 360, resizeable: false, title: 'Pirate Game' do
 
+        require 'pirate_game/shoes4_patch'
+
         @client = nil
 
         def launch_screen
