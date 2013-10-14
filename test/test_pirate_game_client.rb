@@ -20,8 +20,6 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
 
     @client.issue_command 'Test'
 
-    Thread.pass
-
     assert_in_epsilon 30, @client.action_time_left, 0.1
   end
 
@@ -46,7 +44,7 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
 
     @client.clicked 'Test'
 
-    Thread.pass
+    Thread.pass while @client.command_start
 
     refute @client.waiting?
     assert_nil @client.current_action

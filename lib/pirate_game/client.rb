@@ -5,6 +5,11 @@ class PirateGame::Client < Shuttlecraft
 
   attr_reader :msg_log, :bridge
 
+  ##
+  # The time the last command was issued
+
+  attr_reader :command_start
+
   attr_accessor :completion_time
 
   ##
@@ -40,6 +45,8 @@ class PirateGame::Client < Shuttlecraft
     @command_thread = Thread.new do
       wait_for_action action
     end
+
+    Thread.pass until @command_start
 
     @current_action = action
   end
@@ -106,12 +113,13 @@ class PirateGame::Client < Shuttlecraft
     @mothership.write [:action, action, Time.now, from]
   rescue Rinda::RequestExpiredError
   ensure
-    @current_action = nil
+    @command_thread = nil
     @command_start  = nil
+    @current_action = nil
   end
 
   def waiting?
-    @command_thread and @command_thread.alive?
+    @command_thread and @command_thread.alive? and @command_start
   end
 
 end
