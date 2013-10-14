@@ -1,5 +1,6 @@
 require 'shuttlecraft'
 require 'thread'
+require 'timeout'
 
 class PirateGame::Client < Shuttlecraft
 
@@ -100,18 +101,24 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def renewer
-    Rinda::SimpleRenewer.new @completion_time
+    PirateGame::TimeoutRenewer.new @completion_time
   end
 
   def wait_for_action action
     @command_start = Time.now
     now = @command_start.to_i
 
-    _, _, _, from =
-      @mothership.read [:button, action, (now...now + 30), nil], renewer
+    Thread.pass
+
+    from = nil
+
+    Timeout.timeout @completion_time do
+      _, _, _, from =
+        @mothership.read [:button, action, (now...now + 30), nil], renewer
+    end
 
     @mothership.write [:action, action, Time.now, from]
-  rescue Rinda::RequestExpiredError
+  rescue Rinda::RequestExpiredError, Timeout::Error
   ensure
     @command_thread = nil
     @command_start  = nil
