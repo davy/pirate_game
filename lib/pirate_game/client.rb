@@ -46,7 +46,7 @@ class PirateGame::Client < Shuttlecraft
       wait_for_action action
     end
 
-    Thread.pass until @command_start
+    Thread.pass until @command_start # this should be a barrier
 
     @current_action = action
   end
