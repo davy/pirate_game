@@ -90,6 +90,8 @@ module PirateGame
             stack :margin => 20 do
               title PirateCommand.exclaim!, stroke: Boot::COLORS[:dark]
 
+              draw_command_box
+
               @button_flow = flow do
                 for item in @client.bridge.items
                   button(item) {|b| @client.perform_action b.text }
@@ -130,6 +132,15 @@ module PirateGame
                 para "#{name} said: #{msg}", stroke: Boot::COLORS[:light]
               end
             end
+          end
+        end
+
+        def draw_command_box
+          if @client.waiting? then
+            caption @client.current_action
+          else
+            @client.issue_command 'a'
+            caption 'a'
           end
         end
 

@@ -7,6 +7,11 @@ class PirateGame::Client < Shuttlecraft
 
   attr_accessor :completion_time
 
+  ##
+  # The command the client is waiting for
+
+  attr_reader :current_action
+
   def initialize(opts={})
     opts[:protocol] ||= PirateGame::Protocol.default
 
@@ -18,6 +23,7 @@ class PirateGame::Client < Shuttlecraft
 
     @completion_time = 30
     @command_thread = nil
+    @current_action = nil
   end
 
   def clicked button
@@ -30,6 +36,8 @@ class PirateGame::Client < Shuttlecraft
     @command_thread = Thread.new do
       wait_for_action action
     end
+
+    @current_action = action
   end
 
   def start_stage(items)
@@ -90,6 +98,8 @@ class PirateGame::Client < Shuttlecraft
 
     @mothership.write [:action, action, Time.now, from]
   rescue Rinda::RequestExpiredError
+  ensure
+    @current_action = nil
   end
 
   def waiting?

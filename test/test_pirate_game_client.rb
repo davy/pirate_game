@@ -32,12 +32,14 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     @client.issue_command 'Test'
 
     assert @client.waiting?
+    assert_equal 'Test', @client.current_action
 
     @client.clicked 'Test'
 
     Thread.pass
 
     refute @client.waiting?
+    assert_nil @client.current_action
   end
 
   def test_start_stage
