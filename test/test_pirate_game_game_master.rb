@@ -4,7 +4,12 @@ require 'pirate_game'
 class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
   def setup
+    @client = PirateGame::Client.new name: 'user'
+
     @game_master = PirateGame::GameMaster.new(name: 'Foo')
+
+    DRb.stop_service if DRb.primary_server
+    DRb.start_service nil, @client
   end
 
   def test_initialize
