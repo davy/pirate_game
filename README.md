@@ -4,34 +4,49 @@
 
 ## Description
 
+## DONE
+Game Master
+
+
+
 ## TODO
 
 Game Master
  * Stage
-   * creates bridge for each player
+   * **X creates bridge for each player**
    * provides list of total bridge items
-   * Actions completed
+   * **X Actions completed / booty collected**
    * Difficulty level
-   * Time left
-   * booty collected
- * Fails game
+   * **X Time left**
+ * Watcher threads
+   * **X watches for activity messages and sends to stage**
+   * Cleans up expired button messages?
+ * **Ends game**
+   * Provides final statistics on player activity
  * Global random events
    * fog, rain, clouds, hurricane
  * Entire team cooperative events (stretch goal?)
    * navy raid, merchant ship?, kraken
    * watches tuplespace for action messages
    * will need to know who sent message, so we can trigger when all users check in
- * Cleanup expired messages
 
+Client
 
-Game
-
-* Particular activity
+ * **X Registers with game**
+ * Each client indicates when ready to begin stage
+   * **X Game Master then notifies clients stage has begun**
+   * ^ currently this is just a force button in GM
+ * 
+ * Particular action
+    * Generates "#{action} the #{thing}" message
+      * thing comes from list of available bridge items
+      * action is simply PirateCommand.action, doesn't mean anything, just makes game more fun
     * Displays text on current game screen
-    * Watches tuplespace for action message
-        * tuple: [:action, 'Action Text', Time.now, DRB.uri]
+    * Watches tuplespace for button message
+        * tuple: [:button, 'Thing Text', Time.now, DRb.uri]
     * Timer that counts down
-        * sends action failed message
+    * When message is received sends action message to GM
+        * tuple: [:action, 'Thing Text', time, DRb.uri] 
 
 Game Display
 
@@ -39,16 +54,17 @@ Stage in progress
  * Backdrop (sunny, clouds, rain, hurricane)
     * nice rolling waves
  * Bridge (which also moves)
-    * Array of buttons for items assigned by game master
+    * **X Array of buttons for items assigned by game master**
+    * Bridge needs some styling / layout love
  * Wheel (stretch goal)
     * 15 degrees port!
  * Progress bar for time left?
  * Progress bar for booty collected?
- * Cannon for raids
+ * Cannon for raids?
  
  Stage complete
-    * Return to port and drink rum 
-    * chat?
+    * **X Return to port and drink rum**
+    * **X Chat**
 
 Character creation
  * beard style, hat style, parrot color, eyepatch
