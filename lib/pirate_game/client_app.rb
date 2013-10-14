@@ -139,6 +139,9 @@ module PirateGame
               if @registered
                 button("Test Action") { @client.perform_action 'Test Action' }
                 button("Test Button") { @client.clicked 'Test Button' }
+                button("Test Stage")  do
+                  @client.start_stage 'a'..'f'; stage_screen
+                end
 
                 flow do
                   el = edit_line
