@@ -136,12 +136,9 @@ module PirateGame
         end
 
         def draw_command_box
-          if @client.waiting? then
-            caption @client.current_action
-          else
-            @client.issue_command 'a'
-            caption 'a'
-          end
+          @client.issue_command 'a' unless @client.waiting?
+
+          caption @client.current_action
         end
 
         def draw_updating_area
