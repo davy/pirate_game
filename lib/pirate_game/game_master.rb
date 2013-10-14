@@ -122,7 +122,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   private
 
   def send_to_clients
-    for _, uri in registered_services
+    each_service_uri do |uri|
       begin
         remote = DRbObject.new_with_uri(uri)
         yield remote

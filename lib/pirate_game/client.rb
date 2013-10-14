@@ -56,7 +56,7 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def broadcast(msg)
-    for _, uri in registered_services
+    each_service_uri do |uri|
       begin
         remote = DRbObject.new_with_uri(uri)
         remote.say(msg, DRb.uri)
