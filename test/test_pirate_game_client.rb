@@ -53,6 +53,12 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     assert_includes @client.bridge.items, 'bar'
   end
 
+  def test_renewer
+    renewer = @client.renewer
+
+    assert_equal 30, renewer.renew
+  end
+
   def test_return_to_pub
     @client.start_stage(['foo', 'bar'])
 

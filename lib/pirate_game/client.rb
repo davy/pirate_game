@@ -26,8 +26,6 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def clicked button
-    renewer = Rinda::SimpleRenewer.new @completion_time
-
     @mothership.write [:button, button, Time.now.to_i, DRb.uri], renewer
   end
 
@@ -87,10 +85,12 @@ class PirateGame::Client < Shuttlecraft
     from[0] if from
   end
 
+  def renewer
+    renewer = Rinda::SimpleRenewer.new @completion_time
+  end
+
   def wait_for_action action
     now = Time.now.to_i
-
-    renewer = Rinda::SimpleRenewer.new @completion_time
 
     _, _, _, from =
       @mothership.read [:button, action, (now...now + 30), nil], renewer
