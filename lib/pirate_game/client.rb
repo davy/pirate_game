@@ -18,11 +18,18 @@ class PirateGame::Client < Shuttlecraft
     super(opts)
 
     @bridge          = nil
+    @command_start   = nil
     @command_thread  = nil
     @completion_time = 30
     @current_action  = nil
     @msg_log         = []
     @msg_log_mutex   = Mutex.new
+  end
+
+  def action_time_left
+    return 0 unless waiting?
+
+    @command_start - Time.now + @completion_time
   end
 
   def clicked button
@@ -90,7 +97,8 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def wait_for_action action
-    now = Time.now.to_i
+    @command_start = Time.now
+    now = @command_start.to_i
 
     _, _, _, from =
       @mothership.read [:button, action, (now...now + 30), nil], renewer
@@ -99,6 +107,7 @@ class PirateGame::Client < Shuttlecraft
   rescue Rinda::RequestExpiredError
   ensure
     @current_action = nil
+    @command_start  = nil
   end
 
   def waiting?

@@ -15,6 +15,16 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     assert_empty @client.msg_log
   end
 
+  def test_action_time_left
+    assert_equal 0, @client.action_time_left
+
+    @client.issue_command 'Test'
+
+    Thread.pass
+
+    assert_in_epsilon 30, @client.action_time_left, 0.1
+  end
+
   def test_clicked
     make_services
 
