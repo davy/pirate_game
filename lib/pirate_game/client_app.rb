@@ -136,9 +136,21 @@ module PirateGame
         end
 
         def draw_command_box
-          @client.issue_command 'a' unless @client.waiting?
+          current_action = nil
+          time_left      = nil
 
-          caption @client.current_action
+          flow do
+            time_left = para
+
+            current_action = para @client.current_action
+          end
+
+          animate 1 do
+            @client.issue_command 'a' unless @client.waiting?
+
+            time_left.replace '%d' % @client.action_time_left
+            current_action.replace @client.current_action
+          end
         end
 
         def draw_updating_area
