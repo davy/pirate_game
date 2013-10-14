@@ -53,11 +53,10 @@ module PirateGame
               stack do
                 motherships = @client.find_all_motherships
 
-                if motherships.empty?
-                  subtitle "No Games Found", stroke: Boot::COLORS[:light]
-                else
-                  subtitle "Select Game", stroke: Boot::COLORS[:light]
-                end
+                subtitle_text =
+                  motherships.empty? ? "No Games Found" : "Select Game"
+
+                subtitle subtitle_text, stroke: Boot::COLORS[:light]
 
                 for mothership in motherships
                   draw_mothership_button mothership
@@ -72,26 +71,37 @@ module PirateGame
         end
 
         def pub_screen
+          @stage_animation.remove if @stage_animation
+
           clear do
             background Boot::COLORS[:pub]
             stack :margin => 20 do
               title "Pirate Pub", stroke: Boot::COLORS[:light]
               tagline "Welcome #{@client.name}", stroke: Boot::COLORS[:light]
 
-              stack do @status = para end
+              stack do @status = para '', stroke: Boot::COLORS[:light] end
 
               @registered = nil
               @updating_area = stack
-              @chat_room = stack
+              @feedback_area = stack
+              stack do
+                @chat_title = tagline 'Pub Chat', stroke: Boot::COLORS[:light]
+                @chat_input = flow
+                @chat_messages = stack
+              end
             end
 
             # checks for registration changes
             # updates chat messages
             @pub_animation = animate(5) {
               if @client
-                draw_updating_area
 
-                draw_chat_room
+                # updates screen only when registration state changes
+                update_on_registration_change
+
+                # updates screen, runs every time
+                update_feedback_area
+                update_chat_room
               end
             }
           end
@@ -105,14 +115,25 @@ module PirateGame
             stack :margin => 20 do
               title PirateCommand.exclaim!, stroke: Boot::COLORS[:dark]
 
-              draw_command_box
+              stack do
+                @time_left = para '', stroke: Boot::COLORS[:dark]
+                @current_action = para '', stroke: Boot::COLORS[:dark]
 
-              @button_flow = flow do
-                for item in @client.bridge.items
-                  button(item) {|b| @client.perform_action b.text }
+                flow do
+                  for item in @client.bridge.items
+                    button(item) {|b| @client.perform_action b.text }
+                  end
                 end
               end
+
             end
+
+            @stage_animation = animate(1) {
+              @client.issue_command 'a' unless @client.waiting?
+
+              @time_left.replace '%d' % @client.action_time_left
+              @current_action.replace @client.current_action
+            }
           end
         end
 
@@ -121,6 +142,8 @@ module PirateGame
             background Boot::COLORS[:dark]
             stack margin: 20 do
               title "END OF GAME", stroke: Boot::COLORS[:light]
+
+              # TODO: need to display game stats
             end
           end
         end
@@ -138,17 +161,24 @@ module PirateGame
           yield
         end
 
-        def draw_chat_room
+        def update_feedback_area
           if @registered
-            @chat_room.clear do
+            @feedback_area.clear do
               if @client.waiting? then
                 para 'Click "Test Button"'
               else
                 para 'AVAST!!'
                 @client.issue_command 'Test Button'
               end
+            end
+          end
+        end
 
-              caption "Pub Chat: #{@client.teammates.join(', ')}", stroke: Boot::COLORS[:light]
+        def update_chat_room
+          if @registered
+            @chat_title.replace "Pub Chat: #{@client.teammates.join(', ')}"
+
+            @chat_messages.clear do
               for msg, name in @client.msg_log
                 para "#{name} said: #{msg}", stroke: Boot::COLORS[:light]
               end
@@ -156,25 +186,7 @@ module PirateGame
           end
         end
 
-        def draw_command_box
-          current_action = nil
-          time_left      = nil
-
-          flow do
-            time_left = para
-
-            current_action = para @client.current_action
-          end
-
-          animate 1 do
-            @client.issue_command 'a' unless @client.waiting?
-
-            time_left.replace '%d' % @client.action_time_left
-            current_action.replace @client.current_action
-          end
-        end
-
-        def draw_updating_area
+        def update_on_registration_change
           detect_registration_change do
             @updating_area.clear do
               if @registered
@@ -183,19 +195,22 @@ module PirateGame
                 button("Test Stage")  do
                   @client.start_stage 'a'..'f'; stage_screen
                 end
-
-                flow do
-                  el = edit_line
-
-                  button("Send") {
-                    unless el.text.empty?
-                      @client.broadcast(el.text)
-                      el.text = ''
-                    end
-                  }
-                end
               else
                 button("Register")    { register }
+              end
+            end
+
+            # chat input box only appears when registered
+            @chat_input.clear do
+              if @registered
+                el = edit_line
+
+                button("Send") {
+                  unless el.text.empty?
+                    @client.broadcast(el.text)
+                    el.text = ''
+                  end
+                }
               end
             end
           end
