@@ -31,6 +31,8 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
     assert @game_master.stage
     assert_equal 1, @game_master.stage.level
 
+    @game_master.stage.begin_time = Time.at 0
+
     assert @game_master.start
     assert_equal 2, @game_master.stage.level
   end
