@@ -17,13 +17,12 @@ class PirateGame::Client < Shuttlecraft
 
     super(opts)
 
-    @bridge = nil
-    @msg_log = []
-    @msg_log_mutex = Mutex.new
-
+    @bridge          = nil
+    @command_thread  = nil
     @completion_time = 30
-    @command_thread = nil
-    @current_action = nil
+    @current_action  = nil
+    @msg_log         = []
+    @msg_log_mutex   = Mutex.new
   end
 
   def clicked button
