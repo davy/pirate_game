@@ -13,7 +13,7 @@ module PirateGame
             background Boot::COLORS[:dark]
             stack margin: 20 do
               title "What's your name", stroke: Boot::COLORS[:light]
-              el = edit_line text: 'Name' do |s|
+              edit_line text: 'Name' do |s|
                 @name = s.text
               end
               button('launch') {

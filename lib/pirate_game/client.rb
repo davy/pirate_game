@@ -56,7 +56,7 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def broadcast(msg)
-    for name,uri in registered_services
+    for _, uri in registered_services
       begin
         remote = DRbObject.new_with_uri(uri)
         remote.say(msg, DRb.uri)
@@ -86,7 +86,7 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def renewer
-    renewer = Rinda::SimpleRenewer.new @completion_time
+    Rinda::SimpleRenewer.new @completion_time
   end
 
   def wait_for_action action
