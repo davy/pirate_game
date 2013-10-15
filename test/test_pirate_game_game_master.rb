@@ -17,15 +17,32 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
   end
 
   def test_startable_eh
+
+    # should not be startable when no players exist
     assert_equal 0, @game_master.num_players
     refute @game_master.startable?
-
     refute @game_master.start
-
     assert_nil @game_master.stage
 
+    # should be startable after making services
     make_services
 
+    assert @game_master.startable?
+    assert @game_master.start
+
+    # should not be startable when stage is failed
+    @game_master.stage.begin_time = Time.at 0
+
+    assert @game_master.stage.failure?
+    refute @game_master.startable?
+    refute @game_master.start
+
+    # should be startable when stage is success
+    10.times do
+      @game_master.stage.complete 'test', 'test'
+    end
+
+    assert @game_master.stage.success?
     assert @game_master.startable?
   end
 
@@ -37,6 +54,9 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
     assert_equal 1, @game_master.stage.level
 
     @game_master.stage.begin_time = Time.at 0
+    10.times do
+      @game_master.stage.complete 'test', 'test'
+    end
 
     assert @game_master.start
     assert_equal 2, @game_master.stage.level

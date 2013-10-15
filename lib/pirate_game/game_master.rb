@@ -60,7 +60,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   def startable?
     update
-    (@stage.nil? || !@stage.in_progress?) &&
+    (@stage.nil? || @stage.success?) &&
     @num_players >= MIN_PLAYERS && @num_players <= MAX_PLAYERS
   end
 
