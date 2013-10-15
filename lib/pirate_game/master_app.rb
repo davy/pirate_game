@@ -60,7 +60,7 @@ module PirateGame
 
           @button_stack.clear do
             if @startable
-              button('start stage') {
+              button('START') {
                 @game_master.start
               }
             end

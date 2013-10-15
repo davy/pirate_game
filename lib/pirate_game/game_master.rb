@@ -81,7 +81,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   def send_start_to_clients
     send_to_clients do |client|
       bridge = @stage.bridge_for_player
-      client.start_stage(bridge)
+      client.start_stage(bridge, @stage.all_items)
     end
   end
 

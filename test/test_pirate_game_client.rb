@@ -32,7 +32,7 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
 
     @client.issue_command 'Test'
 
-    assert_in_epsilon 30, @client.action_time_left, 0.1
+    assert_in_epsilon 10, @client.action_time_left, 0.1
   end
 
   def test_clicked
@@ -52,7 +52,7 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     @client.issue_command 'Test'
 
     assert @client.waiting?
-    assert_equal 'Test', @client.current_action
+    assert_match /Test/, @client.current_action
 
     @client.clicked 'Test'
 
@@ -65,22 +65,23 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
   def test_start_stage
     assert_nil @client.bridge
 
-    @client.start_stage(['foo', 'bar'])
+    @client.start_stage(%w[foo bar], %w[foo bar baz buz])
 
     assert @client.bridge
 
     assert_includes @client.bridge.items, 'foo'
     assert_includes @client.bridge.items, 'bar'
+    assert_equal 4, @client.bridge.stage_items.length
   end
 
   def test_renewer
     renewer = @client.renewer
 
-    assert_equal 30, renewer.renew
+    assert_equal 10, renewer.renew
   end
 
   def test_return_to_pub
-    @client.start_stage(['foo', 'bar'])
+    @client.start_stage(%w[foo bar], %w[foo bar baz buz])
 
     assert @client.bridge
 

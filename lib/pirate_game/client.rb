@@ -30,7 +30,7 @@ class PirateGame::Client < Shuttlecraft
     @bridge          = nil
     @command_start   = nil
     @command_thread  = nil
-    @completion_time = 30
+    @completion_time = 10
     @current_action  = nil
     @msg_log         = []
     @msg_log_mutex   = Mutex.new
@@ -54,14 +54,16 @@ class PirateGame::Client < Shuttlecraft
     @mothership.write [:button, button, Time.now.to_i, DRb.uri], renewer
   end
 
-  def issue_command action
+  def issue_command item=nil
+    item ||= @bridge.stage_items.sample
+
     @command_thread = Thread.new do
-      wait_for_action action
+      wait_for_action item
     end
 
     Thread.pass until @command_start # this should be a proper barrier
 
-    @current_action = action
+    @current_action = "#{PirateCommand.action} the #{item}"
   end
 
   def register
@@ -69,8 +71,8 @@ class PirateGame::Client < Shuttlecraft
     super
   end
 
-  def start_stage(items)
-    @bridge = PirateGame::Bridge.new(items)
+  def start_stage(bridge, all_items)
+    @bridge = PirateGame::Bridge.new(bridge, all_items)
     set_state :stage
   end
 
@@ -87,9 +89,12 @@ class PirateGame::Client < Shuttlecraft
     registered_services.collect{|name,_| name}
   end
 
-  def perform_action action
+  #
+  # Sends action message to Game Master indicating
+  # that action has been successfully performed
+  def perform_action item, time, from
     if @mothership
-      @mothership.write [:action, action, Time.now, DRb.uri]
+      @mothership.write [:action, item, time, from]
     end
   end
 
@@ -127,7 +132,7 @@ class PirateGame::Client < Shuttlecraft
     PirateGame::TimeoutRenewer.new @completion_time
   end
 
-  def wait_for_action action
+  def wait_for_action item
     @command_start = Time.now
     now = @command_start.to_i
 
@@ -137,10 +142,11 @@ class PirateGame::Client < Shuttlecraft
 
     Timeout.timeout @completion_time do
       _, _, _, from =
-        @mothership.read [:button, action, (now...now + 30), nil], renewer
+        @mothership.read [:button, item, (now...now + 30), nil], renewer
     end
 
-    @mothership.write [:action, action, Time.now, from]
+    perform_action item, Time.now, from
+
   rescue Rinda::RequestExpiredError, Timeout::Error
   ensure
     @command_thread = nil

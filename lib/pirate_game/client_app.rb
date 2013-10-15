@@ -116,12 +116,11 @@ module PirateGame
               title PirateCommand.exclaim!, stroke: Boot::COLORS[:dark]
 
               stack do
-                @time_left = para '', stroke: Boot::COLORS[:dark]
-                @current_action = para '', stroke: Boot::COLORS[:dark]
+                @instruction = flow margin: 20
 
                 flow do
                   for item in @client.bridge.items
-                    button(item) {|b| @client.perform_action b.text }
+                    button(item) {|b| @client.clicked b.text }
                   end
                 end
               end
@@ -129,15 +128,20 @@ module PirateGame
             end
 
             @stage_animation = animate(1) {
-              @client.issue_command 'a' unless @client.waiting?
+              @client.issue_command unless @client.waiting?
 
-              @time_left.replace '%d' % @client.action_time_left
-              @current_action.replace @client.current_action
+              @instruction.clear do
+                para @client.action_time_left.to_i, stroke: Boot::COLORS[:dark]
+                para @client.current_action, stroke: Boot::COLORS[:dark]
+              end
             }
           end
         end
 
         def end_screen
+          @pub_animation.remove if @pub_animation
+          @stage_animation.remove if @stage_animation
+
           clear do
             background Boot::COLORS[:dark]
             stack margin: 20 do
@@ -168,7 +172,7 @@ module PirateGame
                 para 'Click "Test Button"'
               else
                 para 'AVAST!!'
-                @client.issue_command 'Test Button'
+                #@client.issue_command 'Test Button'
               end
             end
           end
@@ -190,11 +194,8 @@ module PirateGame
           detect_registration_change do
             @updating_area.clear do
               if @registered
-                button("Test Action") { @client.perform_action 'Test Action' }
+                button("Test Action") { @client.perform_action 'Test Action', Time.now, DRb.uri }
                 button("Test Button") { @client.clicked 'Test Button' }
-                button("Test Stage")  do
-                  @client.start_stage 'a'..'f'; stage_screen
-                end
               else
                 button("Register")    { register }
               end
