@@ -82,7 +82,6 @@ class PirateGame::ClientApp
 
             @registered = nil
             @updating_area = stack
-            @feedback_area = stack
             stack do
               @chat_title = tagline 'Pub Chat', stroke: PirateGame::Boot::COLORS[:light]
               @chat_input = flow
@@ -99,7 +98,6 @@ class PirateGame::ClientApp
               update_on_registration_change
 
               # updates screen, runs every time
-              update_feedback_area
               update_chat_room
             end
           }
@@ -164,19 +162,6 @@ class PirateGame::ClientApp
         yield
       end
 
-      def update_feedback_area
-        if @registered
-          @feedback_area.clear do
-            if @client.waiting? then
-              para 'Click "Test Button"'
-            else
-              para 'AVAST!!'
-              #@client.issue_command 'Test Button'
-            end
-          end
-        end
-      end
-
       def update_chat_room
         if @registered
           @chat_title.replace "Pub Chat: #{@client.teammates.join(', ')}"
@@ -192,12 +177,7 @@ class PirateGame::ClientApp
       def update_on_registration_change
         detect_registration_change do
           @updating_area.clear do
-            if @registered
-              button("Test Action") { @client.perform_action 'Test Action', Time.now, DRb.uri }
-              button("Test Button") { @client.clicked 'Test Button' }
-            else
-              button("Register")    { register }
-            end
+            button("Register") { register } unless @registered
           end
 
           # chat input box only appears when registered
