@@ -40,7 +40,7 @@ class PirateGame::ClientApp
 
         draw items do
           stack margin: 20 do
-            title "What's your name", stroke: PirateGame::Boot::COLORS[:light]
+            title "What's your name", stroke: PirateGame::Boot::COLORS[:dark]
 
             edit_line text: 'Name' do |s|
               @name = s.text
