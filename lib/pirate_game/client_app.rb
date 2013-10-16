@@ -151,8 +151,7 @@ class PirateGame::ClientApp
       def stage_screen
         @pub_animation.remove if @pub_animation
 
-        clear do
-          background PirateGame::Boot::COLORS[:sky]
+        pirate_ship do
           stack :margin => 20 do
             title PirateCommand.exclaim!, stroke: PirateGame::Boot::COLORS[:dark]
 
@@ -165,16 +164,16 @@ class PirateGame::ClientApp
             end
 
           end
-
-          @stage_animation = animate(1) {
-            @client.issue_command unless @client.waiting?
-
-            @instruction.clear do
-              para @client.action_time_left.to_i, stroke: PirateGame::Boot::COLORS[:dark]
-              para @client.current_action, stroke: PirateGame::Boot::COLORS[:dark]
-            end
-          }
         end
+
+        @stage_animation = animate(1) {
+          @client.issue_command unless @client.waiting?
+
+          @instruction.clear do
+            para @client.action_time_left.to_i, stroke: PirateGame::Boot::COLORS[:dark]
+            para @client.current_action, stroke: PirateGame::Boot::COLORS[:dark]
+          end
+        }
       end
 
       def end_screen
