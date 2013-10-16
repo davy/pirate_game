@@ -44,9 +44,7 @@ class PirateGame::ClientApp
       end
 
       def launch_screen
-        items = background_items
-
-        draw items do
+        pirate_ship do
           stack margin: 20 do
             title "What's your name", stroke: PirateGame::Boot::COLORS[:dark]
 
@@ -63,6 +61,12 @@ class PirateGame::ClientApp
         @state_watcher = animate(5) {
           watch_state
         }
+      end
+
+      def pirate_ship
+        items = background_items
+
+        draw items do yield end
 
         animate_items items
       end
@@ -86,8 +90,6 @@ class PirateGame::ClientApp
       end
 
       def select_game_screen
-        items = background_items
-
         motherships = @client.find_all_motherships
 
         title_text = if motherships.empty? then
@@ -96,7 +98,7 @@ class PirateGame::ClientApp
                        "Choose Game"
                      end
 
-        draw items do
+        pirate_ship do
           stack :margin => 20 do
             title title_text, stroke: PirateGame::Boot::COLORS[:dark]
 
@@ -109,8 +111,6 @@ class PirateGame::ClientApp
             }
           end
         end
-
-        animate_items items
       end
 
       def pub_screen
