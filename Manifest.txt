@@ -13,11 +13,13 @@ lib/pirate_game/bridge.rb
 lib/pirate_game/client.rb
 lib/pirate_game/client_app.rb
 lib/pirate_game/game_master.rb
+lib/pirate_game/image.rb
 lib/pirate_game/master_app.rb
 lib/pirate_game/protocol.rb
 lib/pirate_game/shoes4_patch.rb
 lib/pirate_game/stage.rb
 lib/pirate_game/timeout_renewer.rb
+lib/pirate_game/wave.rb
 lib/pirate_game_launch_screen.rb
 state_diagram.graffle
 test/test_pirate_game_bridge.rb
