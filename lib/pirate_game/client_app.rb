@@ -16,6 +16,7 @@ class PirateGame::ClientApp
       def create_items
         @items = []
 
+        @items << PirateGame::Wave.new(self, -20, 13)
         @items << PirateGame::Wave.new(self, 0, 30)
 
         image = File.expand_path '../../../imgs/pirate_ship_sm.png', __FILE__
