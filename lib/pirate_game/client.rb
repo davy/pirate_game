@@ -55,7 +55,9 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def issue_command item=nil
-    item ||= @bridge.stage_items.sample
+    item ||= @bridge.stage_items.sample if @bridge
+
+    return unless item
 
     @command_thread = Thread.new do
       wait_for_action item
