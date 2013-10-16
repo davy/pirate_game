@@ -9,14 +9,14 @@ class PirateGame::ClientApp
 
       def launch_screen
         clear do
-          background Boot::COLORS[:dark]
+          background PirateGame::Boot::COLORS[:dark]
           stack margin: 20 do
-            title "What's your name", stroke: Boot::COLORS[:light]
+            title "What's your name", stroke: PirateGame::Boot::COLORS[:light]
             edit_line text: 'Name' do |s|
               @name = s.text
             end
             button('launch') {
-              @client = Client.new(name: @name)
+              @client = PirateGame::Client.new(name: @name)
             }
           end
           @state_watcher = animate(5) {
@@ -45,9 +45,9 @@ class PirateGame::ClientApp
 
       def select_game_screen
         clear do
-          background Boot::COLORS[:dark]
+          background PirateGame::Boot::COLORS[:dark]
           stack :margin => 20 do
-            title "Choose Game", stroke: Boot::COLORS[:light]
+            title "Choose Game", stroke: PirateGame::Boot::COLORS[:light]
 
             stack do
               motherships = @client.find_all_motherships
@@ -55,7 +55,7 @@ class PirateGame::ClientApp
               subtitle_text =
                 motherships.empty? ? "No Games Found" : "Select Game"
 
-              subtitle subtitle_text, stroke: Boot::COLORS[:light]
+              subtitle subtitle_text, stroke: PirateGame::Boot::COLORS[:light]
 
               for mothership in motherships
                 draw_mothership_button mothership
@@ -73,18 +73,18 @@ class PirateGame::ClientApp
         @stage_animation.remove if @stage_animation
 
         clear do
-          background Boot::COLORS[:pub]
+          background PirateGame::Boot::COLORS[:pub]
           stack :margin => 20 do
-            title "Pirate Pub", stroke: Boot::COLORS[:light]
-            tagline "Welcome #{@client.name}", stroke: Boot::COLORS[:light]
+            title "Pirate Pub", stroke: PirateGame::Boot::COLORS[:light]
+            tagline "Welcome #{@client.name}", stroke: PirateGame::Boot::COLORS[:light]
 
-            stack do @status = para '', stroke: Boot::COLORS[:light] end
+            stack do @status = para '', stroke: PirateGame::Boot::COLORS[:light] end
 
             @registered = nil
             @updating_area = stack
             @feedback_area = stack
             stack do
-              @chat_title = tagline 'Pub Chat', stroke: Boot::COLORS[:light]
+              @chat_title = tagline 'Pub Chat', stroke: PirateGame::Boot::COLORS[:light]
               @chat_input = flow
               @chat_messages = stack
             end
@@ -110,9 +110,9 @@ class PirateGame::ClientApp
         @pub_animation.remove if @pub_animation
 
         clear do
-          background Boot::COLORS[:sky]
+          background PirateGame::Boot::COLORS[:sky]
           stack :margin => 20 do
-            title PirateCommand.exclaim!, stroke: Boot::COLORS[:dark]
+            title PirateCommand.exclaim!, stroke: PirateGame::Boot::COLORS[:dark]
 
             stack do
               @instruction = flow margin: 20
@@ -130,8 +130,8 @@ class PirateGame::ClientApp
             @client.issue_command unless @client.waiting?
 
             @instruction.clear do
-              para @client.action_time_left.to_i, stroke: Boot::COLORS[:dark]
-              para @client.current_action, stroke: Boot::COLORS[:dark]
+              para @client.action_time_left.to_i, stroke: PirateGame::Boot::COLORS[:dark]
+              para @client.current_action, stroke: PirateGame::Boot::COLORS[:dark]
             end
           }
         end
@@ -142,9 +142,9 @@ class PirateGame::ClientApp
         @stage_animation.remove if @stage_animation
 
         clear do
-          background Boot::COLORS[:dark]
+          background PirateGame::Boot::COLORS[:dark]
           stack margin: 20 do
-            title "END OF GAME", stroke: Boot::COLORS[:light]
+            title "END OF GAME", stroke: PirateGame::Boot::COLORS[:light]
 
             # TODO: need to display game stats
           end
@@ -183,7 +183,7 @@ class PirateGame::ClientApp
 
           @chat_messages.clear do
             for msg, name in @client.msg_log
-              para "#{name} said: #{msg}", stroke: Boot::COLORS[:light]
+              para "#{name} said: #{msg}", stroke: PirateGame::Boot::COLORS[:light]
             end
           end
         end
