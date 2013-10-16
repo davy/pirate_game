@@ -156,13 +156,11 @@ class PirateGame::ClientApp
           stack :margin => 20 do
             title PirateCommand.exclaim!, stroke: PirateGame::Boot::COLORS[:dark]
 
-            stack do
-              @instruction = flow margin: 20
+            @instruction = flow margin: 20
 
-              flow do
-                for item in @client.bridge.items
-                  button(item) {|b| @client.clicked b.text }
-                end
+            flow do
+              for item in @client.bridge.items
+                button(item) {|b| @client.clicked b.text }
               end
             end
 
