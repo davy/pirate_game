@@ -40,6 +40,8 @@ class PirateGame::ClientApp
       end
 
       def launch_screen
+        @items_animation.start if @items_animation
+
         pirate_ship do
           title "What's your name", stroke: PirateGame::Boot::COLORS[:dark]
 
@@ -51,8 +53,6 @@ class PirateGame::ClientApp
             @client = PirateGame::Client.new(name: @name)
           }
         end
-
-        animate_items
 
         @state_watcher = animate(5) {
           watch_state
@@ -88,6 +88,8 @@ class PirateGame::ClientApp
       end
 
       def select_game_screen
+        @items_animation.start if @items_animation
+
         motherships = @client.find_all_motherships
 
         title_text = if motherships.empty? then
@@ -111,6 +113,7 @@ class PirateGame::ClientApp
 
       def pub_screen
         @stage_animation.remove if @stage_animation
+        @items_animation.stop if @items_animation
 
         clear do
           background PirateGame::Boot::COLORS[:pub]
@@ -146,6 +149,7 @@ class PirateGame::ClientApp
 
       def stage_screen
         @pub_animation.remove if @pub_animation
+        @items_animation.start if @items_animation
 
         pirate_ship do
           title PirateCommand.exclaim!, stroke: PirateGame::Boot::COLORS[:dark]
@@ -172,6 +176,7 @@ class PirateGame::ClientApp
       def end_screen
         @pub_animation.remove if @pub_animation
         @stage_animation.remove if @stage_animation
+        @items_animation.stop if @items_animation
 
         clear do
           background PirateGame::Boot::COLORS[:dark]
@@ -251,6 +256,7 @@ class PirateGame::ClientApp
 
       @client = nil
       create_items
+      animate_items
       launch_screen
     end
   ensure
