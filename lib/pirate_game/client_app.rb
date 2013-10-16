@@ -5,38 +5,34 @@ class PirateGame::ClientApp
 
       require 'pirate_game/shoes4_patch'
 
-      @client = nil
-
-      def animate_items items
-        animate(30) do |frame|
-          items.each do |item|
+      def animate_items
+        @items_animation = animate(30) do |frame|
+          @items.each do |item|
             item.animate frame
           end
         end
       end
 
-      def background_items
-        items = []
+      def create_items
+        @items = []
 
-        items << PirateGame::Wave.new(self, 0, 30)
+        @items << PirateGame::Wave.new(self, 0, 30)
 
         image = File.expand_path '../../../imgs/pirate_ship_sm.png', __FILE__
 
-        items << PirateGame::Image.new(self, image, 66, 55)
+        @items << PirateGame::Image.new(self, image, 66, 55)
 
         [[20, 7], [40, 42], [60, -3], [80, 22]].each do |top, seed|
-          items << PirateGame::Wave.new(self, top, seed)
+          @items << PirateGame::Wave.new(self, top, seed)
         end
-
-        items
       end
 
-      def draw items
+      def draw_items
         clear
 
         background PirateGame::Boot::COLORS[:sky]
 
-        items.each do |item|
+        @items.each do |item|
           item.draw
         end
 
@@ -56,21 +52,21 @@ class PirateGame::ClientApp
           }
         end
 
+        animate_items
+
         @state_watcher = animate(5) {
           watch_state
         }
       end
 
       def pirate_ship
-        items = background_items
 
-        draw items do
+        draw_items do
           stack margin: 20 do
             yield
           end
         end
 
-        animate_items items
       end
 
       def watch_state
@@ -253,6 +249,8 @@ class PirateGame::ClientApp
         @client.unregister if @client
       end
 
+      @client = nil
+      create_items
       launch_screen
     end
   ensure
