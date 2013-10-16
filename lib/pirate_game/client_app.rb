@@ -45,17 +45,15 @@ class PirateGame::ClientApp
 
       def launch_screen
         pirate_ship do
-          stack margin: 20 do
-            title "What's your name", stroke: PirateGame::Boot::COLORS[:dark]
+          title "What's your name", stroke: PirateGame::Boot::COLORS[:dark]
 
-            edit_line text: 'Name' do |s|
-              @name = s.text
-            end
-
-            button('launch') {
-              @client = PirateGame::Client.new(name: @name)
-            }
+          edit_line text: 'Name' do |s|
+            @name = s.text
           end
+
+          button('launch') {
+            @client = PirateGame::Client.new(name: @name)
+          }
         end
 
         @state_watcher = animate(5) {
@@ -66,7 +64,11 @@ class PirateGame::ClientApp
       def pirate_ship
         items = background_items
 
-        draw items do yield end
+        draw items do
+          stack margin: 20 do
+            yield
+          end
+        end
 
         animate_items items
       end
@@ -99,17 +101,15 @@ class PirateGame::ClientApp
                      end
 
         pirate_ship do
-          stack :margin => 20 do
-            title title_text, stroke: PirateGame::Boot::COLORS[:dark]
+          title title_text, stroke: PirateGame::Boot::COLORS[:dark]
 
-            for mothership in motherships
-              draw_mothership_button mothership
-            end
-
-            button('rescan') {
-              select_game_screen
-            }
+          for mothership in motherships
+            draw_mothership_button mothership
           end
+
+          button('rescan') {
+            select_game_screen
+          }
         end
       end
 
@@ -152,17 +152,14 @@ class PirateGame::ClientApp
         @pub_animation.remove if @pub_animation
 
         pirate_ship do
-          stack :margin => 20 do
-            title PirateCommand.exclaim!, stroke: PirateGame::Boot::COLORS[:dark]
+          title PirateCommand.exclaim!, stroke: PirateGame::Boot::COLORS[:dark]
 
-            @instruction = flow margin: 20
+          @instruction = flow margin: 20
 
-            flow do
-              for item in @client.bridge.items
-                button(item) {|b| @client.clicked b.text }
-              end
+          flow do
+            for item in @client.bridge.items
+              button(item) {|b| @client.clicked b.text }
             end
-
           end
         end
 
