@@ -43,9 +43,12 @@ module PirateGame
               @stage_info = para stroke: Boot::COLORS[:dark]
             end
             animate(5) {
-              detect_startable_change
 
-              detect_stage_status_change
+              update_start_button
+
+              detect_stage_status_change {
+                @game_master.send_stage_info_to_clients
+              }
 
               @registrations.replace @game_master.registrations_text
               @stage_info.replace @game_master.stage_info
@@ -53,35 +56,41 @@ module PirateGame
           end
         end
 
+        ##
+        # Responsible for updating the display of the START button
+
+        def update_start_button
+          detect_startable_change {
+            @button_stack.clear do
+              if @startable
+                button('START') {
+                  @game_master.start
+                }
+              end
+            end
+          }
+        end
+
+        ##
+        # If the game_master.startable? state has changed, yields to the block.
+
         def detect_startable_change
           return if @startable == @game_master.startable?
 
           @startable = @game_master.startable?
 
-          @button_stack.clear do
-            if @startable
-              button('START') {
-                @game_master.start
-              }
-            end
-          end
+          yield
         end
 
+        ##
+        # If the stage status has changed, yields to the block
         def detect_stage_status_change
           return unless @game_master.stage
           return if @stage_status == @game_master.stage.status
 
           @stage_status = @game_master.stage.status
 
-          if @game_master.stage.in_progress?
-            # nothing? send message to clients here?
-
-          elsif @game_master.stage.success?
-            @game_master.send_return_to_pub_to_clients
-
-          elsif @game_master.stage.failure?
-            @game_master.send_end_game_to_clients
-          end
+          yield
         end
 
         launch_screen

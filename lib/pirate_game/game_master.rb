@@ -60,8 +60,9 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   def startable?
     update
-    (@stage.nil? || @stage.success?) &&
-    @num_players >= MIN_PLAYERS && @num_players <= MAX_PLAYERS
+    return (@stage.nil? || @stage.success?) &&
+           @num_players >= MIN_PLAYERS &&
+           @num_players <= MAX_PLAYERS
   end
 
   def start
@@ -73,9 +74,19 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
         PirateGame::Stage.new 1, @num_players
       end
 
-    send_start_to_clients
-
     return true
+  end
+
+  def send_stage_info_to_clients
+    if @stage.in_progress?
+      send_start_to_clients
+
+    elsif @stage.success?
+      send_return_to_pub_to_clients
+
+    elsif @stage.failure?
+      send_end_game_to_clients
+    end
   end
 
   def send_start_to_clients
