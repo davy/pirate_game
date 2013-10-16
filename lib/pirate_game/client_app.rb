@@ -82,10 +82,11 @@ class PirateGame::ClientApp
       end
 
       def select_game_screen
-        clear do
-          background PirateGame::Boot::COLORS[:dark]
+        items = background_items
+
+        draw items do
           stack :margin => 20 do
-            title "Choose Game", stroke: PirateGame::Boot::COLORS[:light]
+            title "Choose Game", stroke: PirateGame::Boot::COLORS[:dark]
 
             stack do
               motherships = @client.find_all_motherships
@@ -103,6 +104,12 @@ class PirateGame::ClientApp
                 select_game_screen
               }
             end
+          end
+        end
+
+        animate(30) do |frame|
+          items.each do |item|
+            item.animate frame
           end
         end
       end
