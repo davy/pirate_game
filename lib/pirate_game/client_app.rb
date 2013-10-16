@@ -7,21 +7,59 @@ class PirateGame::ClientApp
 
       @client = nil
 
+      def background_items
+        items = []
+
+        items << PirateGame::Wave.new(self, 0, 30)
+
+        image = File.expand_path '../../../imgs/pirate_ship_sm.png', __FILE__
+
+        items << PirateGame::Image.new(self, image, 66, 55)
+
+        [[20, 7], [40, 42], [60, -3], [80, 22]].each do |top, seed|
+          items << PirateGame::Wave.new(self, top, seed)
+        end
+
+        items
+      end
+
+      def draw items
+        clear
+
+        background PirateGame::Boot::COLORS[:sky]
+
+        items.each do |item|
+          item.draw
+        end
+
+        yield
+      end
+
       def launch_screen
-        clear do
-          background PirateGame::Boot::COLORS[:dark]
+        items = background_items
+
+        draw items do
           stack margin: 20 do
             title "What's your name", stroke: PirateGame::Boot::COLORS[:light]
+
             edit_line text: 'Name' do |s|
               @name = s.text
             end
+
             button('launch') {
               @client = PirateGame::Client.new(name: @name)
             }
           end
-          @state_watcher = animate(5) {
-            watch_state
-          }
+        end
+
+        @state_watcher = animate(5) {
+          watch_state
+        }
+
+        animate(30) do |frame|
+          items.each do |item|
+            item.animate frame
+          end
         end
       end
 

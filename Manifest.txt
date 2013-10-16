@@ -20,7 +20,6 @@ lib/pirate_game/shoes4_patch.rb
 lib/pirate_game/stage.rb
 lib/pirate_game/timeout_renewer.rb
 lib/pirate_game/wave.rb
-lib/pirate_game_launch_screen.rb
 state_diagram.graffle
 test/test_pirate_game_bridge.rb
 test/test_pirate_game_client.rb
