@@ -7,6 +7,14 @@ class PirateGame::ClientApp
 
       @client = nil
 
+      def animate_items items
+        animate(30) do |frame|
+          items.each do |item|
+            item.animate frame
+          end
+        end
+      end
+
       def background_items
         items = []
 
@@ -56,11 +64,7 @@ class PirateGame::ClientApp
           watch_state
         }
 
-        animate(30) do |frame|
-          items.each do |item|
-            item.animate frame
-          end
-        end
+        animate_items items
       end
 
       def watch_state
@@ -107,11 +111,7 @@ class PirateGame::ClientApp
           end
         end
 
-        animate(30) do |frame|
-          items.each do |item|
-            item.animate frame
-          end
-        end
+        animate_items items
       end
 
       def pub_screen
