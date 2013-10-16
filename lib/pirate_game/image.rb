@@ -8,8 +8,7 @@ class PirateGame::Image
   end
 
   def animate frame
-    top_offset, left_offset =
-      PirateGame::Boot.generate_waving_x_y_offsets(frame, 0, 10, 4)
+    top_offset, left_offset = PirateGame::Boot.waving_offset frame, 0, 10, 4
 
     @ship.move @top + top_offset, @left + left_offset
   end

@@ -17,7 +17,7 @@ class PirateGame::Wave
 
   def animate frame
     top_offset, left_offset =
-      PirateGame::Boot.generate_waving_x_y_offsets(frame, @seed, SIZE, 5)
+      PirateGame::Boot.waving_offset frame, @seed, SIZE, 5
 
     @arcs.each do |arc, top, left|
       arc.move top + top_offset, left + left_offset
