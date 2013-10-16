@@ -100,15 +100,13 @@ class PirateGame::ClientApp
           stack :margin => 20 do
             title title_text, stroke: PirateGame::Boot::COLORS[:dark]
 
-            stack do
-              for mothership in motherships
-                draw_mothership_button mothership
-              end
-
-              button('rescan') {
-                select_game_screen
-              }
+            for mothership in motherships
+              draw_mothership_button mothership
             end
+
+            button('rescan') {
+              select_game_screen
+            }
           end
         end
 
