@@ -88,18 +88,19 @@ class PirateGame::ClientApp
       def select_game_screen
         items = background_items
 
+        motherships = @client.find_all_motherships
+
+        title_text = if motherships.empty? then
+                       "No Games Found"
+                     else
+                       "Choose Game"
+                     end
+
         draw items do
           stack :margin => 20 do
-            title "Choose Game", stroke: PirateGame::Boot::COLORS[:dark]
+            title title_text, stroke: PirateGame::Boot::COLORS[:dark]
 
             stack do
-              motherships = @client.find_all_motherships
-
-              subtitle_text =
-                motherships.empty? ? "No Games Found" : "Select Game"
-
-              subtitle subtitle_text, stroke: PirateGame::Boot::COLORS[:light]
-
               for mothership in motherships
                 draw_mothership_button mothership
               end
