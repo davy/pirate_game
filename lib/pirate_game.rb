@@ -4,6 +4,7 @@ end
 
 require 'pirate_game/boot'
 require 'pirate_game/bridge'
+require 'pirate_game/bridge_button'
 require 'pirate_game/client'
 require 'pirate_game/client_app'
 require 'pirate_game/game_master'

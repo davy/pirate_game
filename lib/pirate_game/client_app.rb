@@ -157,9 +157,16 @@ class PirateGame::ClientApp
 
           @instruction = flow margin: 20
 
-          flow do
-            for item in @client.bridge.items
-              button(item) {|b| @client.clicked b.text }
+          @client.bridge.items.each_slice(3).with_index do |items, row|
+            items.each_with_index do |item, column|
+              bridge_button =
+                PirateGame::BridgeButton.new self, item, row, column do
+                  @client.clicked item
+                end
+
+              bridge_button.draw
+
+              @items << bridge_button
             end
           end
         end
