@@ -11,7 +11,9 @@ class PirateGame::ClientApp
 
       def animate_items
         @items_animation = animate(30) do |frame|
-          @items.each do |item|
+          items = @items + @extra_items
+
+          items.each do |item|
             item.animate frame
           end
         end
@@ -48,7 +50,13 @@ class PirateGame::ClientApp
           item.draw
         end
 
+        @extra_items = []
+
         yield
+
+        @extra_items.each do |item|
+          item.draw
+        end
       end
 
       ##
@@ -192,9 +200,7 @@ class PirateGame::ClientApp
                   @client.clicked item
                 end
 
-              bridge_button.draw
-
-              @items << bridge_button
+              @extra_items << bridge_button
             end
           end
         end
