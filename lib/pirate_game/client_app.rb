@@ -61,13 +61,11 @@ class PirateGame::ClientApp
       end
 
       def pirate_ship
-
         draw_items do
           stack margin: 20 do
             yield
           end
         end
-
       end
 
       def watch_state
