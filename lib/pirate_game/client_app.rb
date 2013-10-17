@@ -5,6 +5,11 @@ class PirateGame::ClientApp
 
       require 'pirate_game/shoes4_patch'
 
+      def animate fps, &block
+        opts = { framerate: fps }
+        PirateGame::Animation.new @app, opts, block
+      end
+
       ##
       # Creates the animation trigger for animating items.  An animatable item
       # must respond to #animate and accept a frame number.
@@ -57,6 +62,13 @@ class PirateGame::ClientApp
         @extra_items.each do |item|
           item.draw
         end
+      end
+
+      ##
+      # Sets the application state
+
+      def state= state
+        @client.state = @state = state
       end
 
       ##
@@ -140,6 +152,10 @@ class PirateGame::ClientApp
             select_game_screen
           }
         end
+      rescue DRb::DRbConnError
+        @client.state = @state = :select_game
+
+        select_game_screen
       end
 
       ##
@@ -179,6 +195,10 @@ class PirateGame::ClientApp
             end
           }
         end
+      rescue DRb::DRbConnError
+        @client.state = @state = :select_game
+
+        select_game_screen
       end
 
       ##
@@ -213,6 +233,10 @@ class PirateGame::ClientApp
             para @client.current_action, stroke: PirateGame::Boot::COLORS[:dark]
           end
         }
+      rescue DRb::DRbConnError
+        @client.state = @state = :select_game
+
+        select_game_screen
       end
 
       ##
@@ -231,6 +255,10 @@ class PirateGame::ClientApp
             # TODO: need to display game stats
           end
         end
+      rescue DRb::DRbConnError
+        @client.state = @state = :select_game
+
+        select_game_screen
       end
 
       ##

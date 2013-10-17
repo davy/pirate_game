@@ -2,6 +2,7 @@ module PirateGame
   VERSION = '0.0.1'
 end
 
+require 'pirate_game/animation'
 require 'pirate_game/boot'
 require 'pirate_game/bridge'
 require 'pirate_game/bridge_button'
