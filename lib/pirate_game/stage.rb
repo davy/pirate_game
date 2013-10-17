@@ -1,8 +1,12 @@
 require 'pirate_command'
 
 class PirateGame::Stage
-  attr_accessor :level, :players, :all_items,
-    :actions_completed, :begin_time
+
+  attr_accessor :actions_completed
+  attr_accessor :all_items
+  attr_accessor :begin_time
+  attr_accessor :level
+  attr_accessor :players
 
   ITEMS_PER_BRIDGE = 6
   DURATION = 60
