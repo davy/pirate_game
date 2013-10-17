@@ -16,6 +16,7 @@ lib/pirate_game/client.rb
 lib/pirate_game/client_app.rb
 lib/pirate_game/game_master.rb
 lib/pirate_game/image.rb
+lib/pirate_game/log_book.rb
 lib/pirate_game/master_app.rb
 lib/pirate_game/protocol.rb
 lib/pirate_game/shoes4_patch.rb

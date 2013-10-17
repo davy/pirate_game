@@ -7,7 +7,11 @@ class PirateGame::Client < Shuttlecraft
   STATES = [:select_game, :pub, :stage, :end]
 
   attr_reader :bridge
-  attr_reader :msg_log
+
+  ##
+  # Log of messages sent
+
+  attr_reader :log_book
 
   ##
   # The state of the client.  See STATES.
@@ -38,8 +42,7 @@ class PirateGame::Client < Shuttlecraft
     @command_thread  = nil
     @completion_time = 10
     @current_action  = nil
-    @msg_log         = []
-    @msg_log_mutex   = Mutex.new
+    @log_book        = PirateGame::LogBook.new
   end
 
   def action_time_left
@@ -117,10 +120,8 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def say(msg, from)
-    @msg_log_mutex.synchronize do
-      name = get_name_from_uri(from)
-      @msg_log << [msg, name || 'unknown']
-    end
+    name = get_name_from_uri(from)
+    @log_book.add msg, name || 'unknown'
     begin
       remote = DRbObject.new_with_uri(from)
       remote.message_reciept(@name)
