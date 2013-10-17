@@ -6,9 +6,13 @@ class PirateGame::Client < Shuttlecraft
 
   STATES = [:select_game, :pub, :stage, :end]
 
-  attr_reader :state
-  attr_reader :msg_log
   attr_reader :bridge
+  attr_reader :msg_log
+
+  ##
+  # The state of the client.  See STATES.
+
+  attr_reader :state
 
   ##
   # The time the last command was issued
