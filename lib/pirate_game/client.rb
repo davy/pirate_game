@@ -31,7 +31,7 @@ class PirateGame::Client < Shuttlecraft
 
     super(opts)
 
-    set_state :select_game
+    self.state = :select_game
 
     @bridge          = nil
     @command_start   = nil
@@ -48,10 +48,10 @@ class PirateGame::Client < Shuttlecraft
     @command_start - Time.now + @completion_time
   end
 
-  def set_state state
-    if STATES.include? state
-      @state = state
-    end
+  def state= state
+    raise RuntimeError, "invalid state #{state}" unless STATES.include? state
+
+    @state = state
   end
 
   def clicked button
@@ -75,22 +75,22 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def register
-    set_state :pub
+    self.state = :pub
     super
   end
 
   def start_stage(bridge, all_items)
     @bridge = PirateGame::Bridge.new(bridge, all_items)
-    set_state :stage
+    self.state = :stage
   end
 
   def return_to_pub
     @bridge = nil
-    set_state :pub
+    self.state = :pub
   end
 
   def end_game
-    set_state :end
+    self.state = :end
   end
 
   def teammates
