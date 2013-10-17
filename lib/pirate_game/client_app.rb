@@ -5,6 +5,10 @@ class PirateGame::ClientApp
 
       require 'pirate_game/shoes4_patch'
 
+      ##
+      # Creates the animation trigger for animating items.  An animatable item
+      # must respond to #animate and accept a frame number.
+
       def animate_items
         @items_animation = animate(30) do |frame|
           @items.each do |item|
@@ -12,6 +16,9 @@ class PirateGame::ClientApp
           end
         end
       end
+
+      ##
+      # Creates the waves and ship graphics that must be animated.
 
       def create_items
         @items = []
@@ -28,6 +35,10 @@ class PirateGame::ClientApp
         end
       end
 
+      ##
+      # Clears the app, draws the background, ship and waves, then yields to
+      # draw UI items.
+
       def draw_items
         clear
 
@@ -39,6 +50,9 @@ class PirateGame::ClientApp
 
         yield
       end
+
+      ##
+      # The launch screen.
 
       def launch_screen
         @items_animation.start if @items_animation
@@ -60,6 +74,10 @@ class PirateGame::ClientApp
         }
       end
 
+      ##
+      # Draws a pirate ship background with waves yields to draw additional
+      # UI.
+
       def pirate_ship
         draw_items do
           stack margin: 20 do
@@ -67,6 +85,9 @@ class PirateGame::ClientApp
           end
         end
       end
+
+      ##
+      # Watches the state of the client to switch to a new screen.
 
       def watch_state
         return if @client.nil?
@@ -85,6 +106,9 @@ class PirateGame::ClientApp
           end_screen
         end
       end
+
+      ##
+      # Displays the UI for choosing a game to join
 
       def select_game_screen
         @items_animation.start if @items_animation
@@ -109,6 +133,9 @@ class PirateGame::ClientApp
           }
         end
       end
+
+      ##
+      # The pirate pub screen where you wait to start a game
 
       def pub_screen
         @stage_animation.remove if @stage_animation
@@ -146,6 +173,9 @@ class PirateGame::ClientApp
         end
       end
 
+      ##
+      # The screen where the game occurs
+
       def stage_screen
         @pub_animation.remove if @pub_animation
         @items_animation.start if @items_animation
@@ -179,6 +209,9 @@ class PirateGame::ClientApp
         }
       end
 
+      ##
+      # The end-game screen
+
       def end_screen
         @pub_animation.remove if @pub_animation
         @stage_animation.remove if @stage_animation
@@ -207,6 +240,9 @@ class PirateGame::ClientApp
         yield
       end
 
+      ##
+      # Updates the chat messages with new messages
+
       def update_chat_room
         if @registered
           @chat_title.replace "Pub Chat: #{@client.teammates.join(', ')}"
@@ -218,6 +254,9 @@ class PirateGame::ClientApp
           end
         end
       end
+
+      ##
+      # Updates the registration view in the pub screen
 
       def update_on_registration_change
         detect_registration_change do
@@ -241,6 +280,9 @@ class PirateGame::ClientApp
         end
       end
 
+      ##
+      # Draws a button for joining a game playing on +mothership+
+
       def draw_mothership_button mothership
         button(mothership[:name]) {|b|
           begin
@@ -252,9 +294,15 @@ class PirateGame::ClientApp
         }
       end
 
+      ##
+      # Registers the client with a game master
+
       def register
         @client.register if @client
       end
+
+      ##
+      # Unregisters a game with a game master
 
       def unregister
         @client.unregister if @client
