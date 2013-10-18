@@ -76,6 +76,10 @@ Pirate Ship image used under [CC by-nc-sa
 3.0](http://creativecommons.org/licenses/by-nc-sa/3.0/) from
 http://sweetclipart.com/pirate-ship-design
 
+Jolly Roger Flag image used under [CC by-nc-sa 
+3.0](http://creativecommons.org/licenses/by-nc-sa/3.0/) 
+from http://freestock.ca/flags_maps_g80-jolly_roger_pirate_grunge_flag_p1022.html
+
 ## Developers
 
 After checking out the source, run:

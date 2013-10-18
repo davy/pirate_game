@@ -249,7 +249,9 @@ class PirateGame::ClientApp
 
         clear do
           background PirateGame::Boot::COLORS[:dark]
+          image File.expand_path '../../../imgs/jolly_roger_sm.png', __FILE__
           stack margin: 20 do
+
             title "END OF GAME", stroke: PirateGame::Boot::COLORS[:light]
 
             # TODO: need to display game stats
