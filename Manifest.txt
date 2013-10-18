@@ -5,10 +5,13 @@ README.md
 Rakefile
 bin/game_client
 bin/game_master
+imgs/jolly_roger.jpg
+imgs/jolly_roger_sm.png
 imgs/pirate_ship.png
 imgs/pirate_ship_sm.png
 lib/pirate_game.rb
 lib/pirate_game/animation.rb
+lib/pirate_game/background.rb
 lib/pirate_game/boot.rb
 lib/pirate_game/bridge.rb
 lib/pirate_game/bridge_button.rb
@@ -27,5 +30,6 @@ state_diagram.graffle
 test/test_pirate_game_bridge.rb
 test/test_pirate_game_client.rb
 test/test_pirate_game_game_master.rb
+test/test_pirate_game_log_book.rb
 test/test_pirate_game_stage.rb
 test/test_pirate_game_timeout_renewer.rb

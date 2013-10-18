@@ -28,6 +28,8 @@ class PirateGame::ClientApp
       # Creates the waves and ship graphics that must be animated.
 
       def create_items
+        @background = PirateGame::Background.new(self)
+
         @items = []
 
         @items << PirateGame::Wave.new(self, -20, 13)
@@ -49,7 +51,9 @@ class PirateGame::ClientApp
       def draw_items
         clear
 
-        background PirateGame::Boot::COLORS[:sky]
+        @background.randomize_state
+
+        @background.draw unless @background.foreground?
 
         @items.each do |item|
           item.draw
@@ -62,6 +66,9 @@ class PirateGame::ClientApp
         @extra_items.each do |item|
           item.draw
         end
+
+        # doesn't draw over input items (buttons, text boxes, etc) >:(
+        @background.draw if @background.foreground?
       end
 
       ##
