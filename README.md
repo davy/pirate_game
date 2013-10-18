@@ -14,17 +14,16 @@ Game Master
 Game Master
  * Stage
    * **X creates bridge for each player**
-   * provides list of total bridge items
+   * **X provides list of total bridge items**
    * **X Actions completed / booty collected**
-   * Difficulty level
+   * **X Difficulty level**
    * **X Time left**
  * Watcher threads
    * **X watches for activity messages and sends to stage**
    * Cleans up expired button messages?
  * **Ends game**
    * Provides final statistics on player activity
- * Global random events
-   * fog, rain, clouds, hurricane
+   * Booty collected, cannons fired, info on each player?
  * Entire team cooperative events (stretch goal?)
    * navy raid, merchant ship?, kraken
    * watches tuplespace for action messages
@@ -38,33 +37,35 @@ Client
    * ^ currently this is just a force button in GM
  * 
  * Particular action
-    * Generates "#{action} the #{thing}" message
+    * **X Generates "#{action} the #{thing}" message**
       * thing comes from list of available bridge items
       * action is simply PirateCommand.action, doesn't mean anything, just makes game more fun
-    * Displays text on current game screen
-    * Watches tuplespace for button message
-        * tuple: [:button, 'Thing Text', Time.now, DRb.uri]
-    * Timer that counts down
-    * When message is received sends action message to GM
-        * tuple: [:action, 'Thing Text', time, DRb.uri] 
+    * **X Displays text on current game screen**
+      * Need to make this look better. Banner? Moves across screen? 
+    * **X Watches tuplespace for button message**
+    * **X Timer that counts down**
+        * Would be nice to show progress bar. Tried to implement but am getting SWT errors   
+    * **X When message is received sends action message to GM**
 
 Game Display
 
 Stage in progress
  * Backdrop (sunny, clouds, rain, hurricane)
     * nice rolling waves
- * Bridge (which also moves)
+    * weather (**Xsunny**, **Xfoggy**, clouds, rain, hurricane?)
+ * Bridge
     * **X Array of buttons for items assigned by game master**
-    * Bridge needs some styling / layout love
+    * **X gentle swaying action**
+    * Sways change based on background state?
  * Wheel (stretch goal)
     * 15 degrees port!
  * Progress bar for time left?
  * Progress bar for booty collected?
  * Cannon for raids?
  
- Stage complete
-    * **X Return to port and drink rum**
-    * **X Chat**
+Stage complete
+ * **X Return to port and drink rum**
+ * **X Chat**
 
 Character creation
  * beard style, hat style, parrot color, eyepatch
