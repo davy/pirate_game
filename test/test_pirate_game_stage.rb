@@ -64,6 +64,14 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
 
   def test_required_actions
     assert_equal 10, @stage.required_actions
+
+    @stage = PirateGame::Stage.new(5, 4)
+
+    assert_equal 29, @stage.required_actions
+
+    @stage = PirateGame::Stage.new(10, 2)
+
+    assert_equal 25, @stage.required_actions
   end
 
   def test_stage_passed_eh
