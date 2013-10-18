@@ -10,7 +10,7 @@ module PirateGame
 
     COLORS = {dark: DARK_COLOR, light: LIGHT_COLOR, sky: SKY_COLOR, pub: PUB_COLOR}
 
-    BLUE_COLORS = [Shoes::COLORS[:blue],
+    BLUE_COLORS = [
                    Shoes::COLORS[:cornflowerblue],
                    Shoes::COLORS[:darkcyan],
                    Shoes::COLORS[:deepskyblue],
