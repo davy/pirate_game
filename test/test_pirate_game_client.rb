@@ -12,7 +12,7 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
   end
 
   def test_initialize
-    assert_empty @client.msg_log
+    assert_empty @client.log_book
     assert_nil @client.bridge
     assert_equal :select_game, @client.state
   end
@@ -104,11 +104,11 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
 
     @client.broadcast 'Hello'
 
-    refute_empty @client.msg_log
+    refute_empty @client.log_book
 
-    assert_equal 2, @client.msg_log.length
-    assert_includes @client.msg_log.collect{|msg, name| msg}, 'Hello'
-    assert_includes @client.msg_log.collect{|msg, name| name}, 'Davy'
+    assert_equal 2, @client.log_book.length
+    assert_includes @client.log_book.collect{|msg, name| msg}, 'Hello'
+    assert_includes @client.log_book.collect{|msg, name| name}, 'Davy'
   end
 
   def test_get_name_from_uri

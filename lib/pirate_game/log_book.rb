@@ -22,9 +22,18 @@ class PirateGame::LogBook
     return enum_for __method__ unless block_given?
 
     @log_book.each do |(entry, author)|
-      yield entry, author
+      yield [entry, author]
     end
   end
+
+  def empty?
+    @log_book.empty?
+  end
+
+  def length
+    @log_book.length
+  end
+  alias_method :size, :length
 
 end
 
