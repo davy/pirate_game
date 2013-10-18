@@ -118,7 +118,6 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   def handle_action action_array
     if @stage && @stage.in_progress?
-      puts "Got action #{action_array[1]}"
       @stage.complete action_array[1], action_array[3]
     end
   end
