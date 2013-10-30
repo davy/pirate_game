@@ -172,11 +172,13 @@ class PirateGame::ClientApp
         @stage_animation.remove if @stage_animation
         @items_animation.stop if @items_animation
 
+        @pub_tagline ||= "Welcome #{@client.name}"
+
         clear do
           background PirateGame::Boot::COLORS[:pub]
           stack :margin => 20 do
             title "Pirate Pub", stroke: PirateGame::Boot::COLORS[:light]
-            tagline "Welcome #{@client.name}", stroke: PirateGame::Boot::COLORS[:light]
+            tagline @pub_tagline, stroke: PirateGame::Boot::COLORS[:light]
 
             stack do @status = para '', stroke: PirateGame::Boot::COLORS[:light] end
 
@@ -214,6 +216,9 @@ class PirateGame::ClientApp
       def stage_screen
         @pub_animation.remove if @pub_animation
         @items_animation.start if @items_animation
+
+        # if we get back to pub then stage was success
+        @pub_tagline = 'SUCCESS!'
 
         pirate_ship do
           title PirateCommand.exclaim!, stroke: PirateGame::Boot::COLORS[:dark]
