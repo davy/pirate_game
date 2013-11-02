@@ -78,7 +78,7 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
   end
 
   def make_services
-    def @game_master.registered_services
+    def @game_master.read_registered_services
       [['Davy', DRb.uri], ['Eric', DRb.uri]]
     end
   end

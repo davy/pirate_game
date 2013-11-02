@@ -63,7 +63,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   end
 
   def startable?
-    update
+    update!
     return (@stage.nil? || @stage.success?) &&
            @num_players >= MIN_PLAYERS &&
            @num_players <= MAX_PLAYERS
@@ -131,10 +131,11 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   def update
     ret = super
+    return if ret.nil?
 
-    @num_players = registered_services.length
+    @num_players = @registered_services_ary.length
 
-    @player_names = registered_services.map { |name,| name }
+    @player_names = @registered_services_ary.map { |name,| name }
 
     ret
   end
