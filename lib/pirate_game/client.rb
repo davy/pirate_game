@@ -129,9 +129,6 @@ class PirateGame::Client < Shuttlecraft
     end
   end
 
-  def message_reciept(from)
-  end
-
   def get_name_from_uri(uri)
     from = registered_services.detect{|n, u| uri == u}
     from[0] if from
