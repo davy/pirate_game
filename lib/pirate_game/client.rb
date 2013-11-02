@@ -124,7 +124,6 @@ class PirateGame::Client < Shuttlecraft
     @log_book.add msg, name || 'unknown'
     begin
       remote = DRbObject.new_with_uri(from)
-      remote.message_reciept(@name)
     rescue DRb::DRbConnError
     end
   end
