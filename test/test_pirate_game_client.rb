@@ -111,12 +111,6 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     assert_includes @client.log_book.collect{|msg, name| name}, @client.name
   end
 
-  def test_get_name_from_uri
-    make_services
-
-    assert_equal 'Davy', @client.get_name_from_uri(DRb.uri)
-  end
-
   def test_wait_for_action
     @client.clicked 'Test'
 

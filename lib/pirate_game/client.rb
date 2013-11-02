@@ -117,11 +117,6 @@ class PirateGame::Client < Shuttlecraft
     @log_book.add msg, name || 'unknown'
   end
 
-  def get_name_from_uri(uri)
-    from = registered_services.detect{|n, u| uri == u}
-    from[0] if from
-  end
-
   def renewer
     PirateGame::TimeoutRenewer.new @completion_time
   end
