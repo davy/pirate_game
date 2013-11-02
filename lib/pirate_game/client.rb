@@ -122,10 +122,6 @@ class PirateGame::Client < Shuttlecraft
   def say(msg, from)
     name = get_name_from_uri(from)
     @log_book.add msg, name || 'unknown'
-    begin
-      remote = DRbObject.new_with_uri(from)
-    rescue DRb::DRbConnError
-    end
   end
 
   def get_name_from_uri(uri)
