@@ -94,20 +94,20 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   end
 
   def send_start_to_clients
-    send_to_clients do |client|
+    each_client do |client|
       bridge = @stage.bridge_for_player
       client.start_stage(bridge, @stage.all_items)
     end
   end
 
   def send_return_to_pub_to_clients
-    send_to_clients do |client|
+    each_client do |client|
       client.return_to_pub
     end
   end
 
   def send_end_game_to_clients
-    send_to_clients do |client|
+    each_client do |client|
       client.end_game
     end
   end
@@ -140,18 +140,5 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     ret
   end
 
-  private
-
-  def send_to_clients
-    each_service_uri do |uri|
-      begin
-        remote = DRbObject.new_with_uri(uri)
-        yield remote
-      rescue DRb::DRbConnError
-      rescue => e
-        puts "hmm #{e.message}"
-      end
-    end
-  end
 end
 

@@ -110,13 +110,7 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def broadcast(msg)
-    each_service_uri do |uri|
-      begin
-        remote = DRbObject.new_with_uri(uri)
-        remote.say(msg, DRb.uri)
-      rescue DRb::DRbConnError
-      end
-    end
+    each_client {|remote| remote.say(msg, DRb.uri) }
   end
 
   def say(msg, from)
