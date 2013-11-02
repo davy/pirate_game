@@ -58,6 +58,10 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     info
   end
 
+  def allow_registration?
+    return (@stage.nil? && @num_players < MAX_PLAYERS)
+  end
+
   def startable?
     update
     return (@stage.nil? || @stage.success?) &&
