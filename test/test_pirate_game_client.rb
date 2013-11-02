@@ -108,7 +108,7 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
 
     assert_equal 2, @client.log_book.length
     assert_includes @client.log_book.collect{|msg, name| msg}, 'Hello'
-    assert_includes @client.log_book.collect{|msg, name| name}, 'Davy'
+    assert_includes @client.log_book.collect{|msg, name| name}, @client.name
   end
 
   def test_get_name_from_uri

@@ -110,11 +110,10 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def broadcast(msg)
-    each_client {|remote| remote.say(msg, DRb.uri) }
+    each_client {|remote| remote.say(msg, @name) }
   end
 
-  def say(msg, from)
-    name = get_name_from_uri(from)
+  def say(msg, name)
     @log_book.add msg, name || 'unknown'
   end
 
