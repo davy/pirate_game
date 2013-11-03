@@ -27,6 +27,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     @num_players  = 0
     @player_names = []
     @stage        = nil
+    @stage_ary    = []
 
     @action_watcher = create_action_watcher
   end
@@ -80,6 +81,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   def start
     return unless startable?
 
+    @stage_ary << @stage if @stage
     @stage = increment_stage
 
     return true
