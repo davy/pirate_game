@@ -10,7 +10,7 @@ class PirateGame::Stage
   attr_accessor :players
 
   ITEMS_PER_BRIDGE = 6
-  DURATION = 60
+  DURATION = 30
 
   IN_PROGRESS = 'In Progress'
   SUCCESS = 'Success'

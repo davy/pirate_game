@@ -15,8 +15,8 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
   end
 
   def test_time_left
-    assert_operator 60, :>=, @stage.time_left
-    assert_operator 58, :<, @stage.time_left
+    assert_operator 30, :>=, @stage.time_left
+    assert_operator 28, :<, @stage.time_left
   end
 
   def test_status_in_progress
