@@ -64,7 +64,7 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def issue_command item=nil
-    item ||= @bridge.stage_items.sample if @bridge
+    item ||= @bridge.sample_item if @bridge
 
     return unless item
 
