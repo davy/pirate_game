@@ -95,6 +95,18 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
     assert @stage.passed?
   end
 
+  def test_rundown
+    10.times { @stage.complete 'foo', 'bar' }
+
+    assert_nil @stage.rundown
+
+    complete_stage
+
+    rundown = {:total_actions => 10, :player_breakdown => {'bar' => 10}}
+
+    assert_equal rundown, @stage.rundown
+  end
+
   def complete_stage
     def @stage.begin_time
       Time.now - 360
