@@ -24,6 +24,10 @@ class PirateGame::Stage
     @begin_time = Time.now
   end
 
+  def increment
+    PirateGame::Stage.new self.level + 1, self.players
+  end
+
   def time_left
     [0, (begin_time + DURATION) - Time.now].max
   end

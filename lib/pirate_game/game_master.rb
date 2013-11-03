@@ -69,14 +69,18 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
            @num_players <= MAX_PLAYERS
   end
 
+  def increment_stage
+    if @stage
+      @stage.increment
+    else
+      PirateGame::Stage.new 1, @num_players
+    end
+  end
+
   def start
     return unless startable?
-    @stage =
-      if @stage then
-        PirateGame::Stage.new @stage.level + 1, @num_players
-      else
-        PirateGame::Stage.new 1, @num_players
-      end
+
+    @stage = increment_stage
 
     return true
   end
