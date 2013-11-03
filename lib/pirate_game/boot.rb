@@ -27,11 +27,22 @@ module PirateGame
                     Shoes::COLORS[:teal]
     ]
 
-    def self.waving_offset(frame, seed, delta_x, delta_y)
+    def self.waving_offset(frame, seed, delta_x, delta_y, speed = :normal)
       t1 = frame + seed
       t2 = frame + seed * 2
-      offset_x = Math.sin(t1/10.0) * delta_x
-      offset_y = Math.cos(t2/18.0) * delta_y
+      vel = 10.0
+
+      case speed
+      when :slow
+        vel = 20.0
+      when :fast
+        vel = 2.0
+        delta_x *= 2
+        delta_y *= 2
+      end
+
+      offset_x = Math.sin(t1/vel) * delta_x
+      offset_y = Math.cos(t2/vel) * delta_y
 
       return offset_x, offset_y
     end
