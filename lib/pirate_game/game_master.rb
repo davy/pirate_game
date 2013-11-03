@@ -59,6 +59,38 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     info
   end
 
+  def game_info
+    return if @stage_ary.empty?
+
+    info = "Game Rundown:\n"
+    gr = game_rundown
+
+    info << "Total Actions: #{gr[:total_actions]}\n"
+
+    gr[:player_breakdown].each do |player_uri, actions|
+      info << "#{player_uri}: #{actions}\n"
+    end
+
+    info
+  end
+
+  def game_rundown
+    return {} if @stage_ary.empty?
+
+    rundown = {
+      :total_actions => @stage_ary.inject(0) {|sum,stage| sum += stage.actions_completed},
+      :player_breakdown => {}}
+
+    for stage in @stage_ary
+      stage.player_stats.each_pair do |key, value|
+        rundown[:player_breakdown][key] ||= 0
+        rundown[:player_breakdown][key] += value.size
+      end
+    end
+
+    rundown
+  end
+
   def allow_registration?
     return (@stage.nil? && @num_players < MAX_PLAYERS)
   end

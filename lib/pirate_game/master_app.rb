@@ -41,6 +41,7 @@ module PirateGame
               @button_stack = stack
               @registrations = para stroke: Boot::COLORS[:dark]
               @stage_info = para stroke: Boot::COLORS[:dark]
+              @game_info = para stroke: Boot::COLORS[:dark]
             end
             animate(5) {
 
@@ -52,6 +53,7 @@ module PirateGame
 
               @registrations.replace @game_master.registrations_text
               @stage_info.replace @game_master.stage_info
+              @game_info.replace @game_master.game_info
             }
           end
         end
