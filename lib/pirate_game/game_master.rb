@@ -41,7 +41,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
     info = "Stage #{@stage.level}: \n"
     if @stage.in_progress?
-      info << "Actions: #{@stage.actions_completed.size}\n"
+      info << "Actions: #{@stage.actions_completed}\n"
       info << "Time Left: #{@stage.time_left.to_i} seconds\n"
     else
       info << "Status: #{@stage.status}\n"
