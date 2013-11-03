@@ -52,6 +52,7 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
     assert @game_master.stage
     assert_equal 1, @game_master.stage.level
+    assert_equal 1, @game_master.stage_ary.length
 
     @game_master.stage.begin_time = Time.at 0
     10.times do
@@ -60,6 +61,9 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
     assert @game_master.start
     assert_equal 2, @game_master.stage.level
+    assert_equal 2, @game_master.stage_ary.length
+
+    assert_equal [1,2], @game_master.stage_ary.collect{|s| s.level}
   end
 
   def test_update

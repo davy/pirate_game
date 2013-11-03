@@ -6,7 +6,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   MIN_PLAYERS = 1 # for now
   MAX_PLAYERS = 4
 
-  attr_accessor :stage
+  attr_accessor :stage, :stage_ary
 
   ##
   # Number of players in the game.  Call #update to refresh
@@ -81,8 +81,8 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   def start
     return unless startable?
 
-    @stage_ary << @stage if @stage
     @stage = increment_stage
+    @stage_ary << @stage
 
     return true
   end
