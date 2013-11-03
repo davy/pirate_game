@@ -7,6 +7,13 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
     @stage = PirateGame::Stage.new 1, 3
   end
 
+  def test_increment
+    @inc = @stage.increment
+
+    assert_equal 2, @inc.level
+    assert_equal @stage.players, @inc.players
+  end
+
   def test_time_left
     assert_operator 60, :>=, @stage.time_left
     assert_operator 58, :<, @stage.time_left
