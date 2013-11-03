@@ -102,7 +102,7 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
 
     complete_stage
 
-    rundown = {:total_actions => 10, :player_breakdown => {'bar' => 10}}
+    rundown = {:stage => 1, :total_actions => 10, :player_breakdown => {'bar' => 10}}
 
     assert_equal rundown, @stage.rundown
   end

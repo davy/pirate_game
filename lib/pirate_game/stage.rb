@@ -81,7 +81,7 @@ class PirateGame::Stage
   def rundown
     return if status == IN_PROGRESS
 
-    rundown = {total_actions: @actions_completed.length}
+    rundown = {stage: @level, total_actions: @actions_completed.length}
     rundown[:player_breakdown] = {}
 
     @actions_completed.collect{|a| a[:performer]}.uniq.each do |p|
