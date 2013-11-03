@@ -16,11 +16,7 @@ class PirateGame::ClientApp
 
       def animate_items
         @items_animation = animate(30) do |frame|
-          items = @items + @extra_items
-
-          items.each do |item|
-            item.animate frame
-          end
+          @background.animate frame
         end
       end
 
@@ -29,19 +25,6 @@ class PirateGame::ClientApp
 
       def create_items
         @background = PirateGame::Background.new(self)
-
-        @items = []
-
-        @items << PirateGame::Wave.new(self, -20, 13)
-        @items << PirateGame::Wave.new(self, 0, 30)
-
-        image = File.expand_path '../../../imgs/pirate_ship_sm.png', __FILE__
-
-        @items << PirateGame::Image.new(self, image, 66, 55)
-
-        [[20, 7], [40, 42], [60, -3], [80, 22]].each do |top, seed|
-          @items << PirateGame::Wave.new(self, top, seed)
-        end
       end
 
       ##
@@ -51,24 +34,9 @@ class PirateGame::ClientApp
       def draw_items
         clear
 
-        @background.randomize_state
-
-        @background.draw unless @background.foreground?
-
-        @items.each do |item|
-          item.draw
+        @background.draw do
+          yield
         end
-
-        @extra_items = []
-
-        yield
-
-        @extra_items.each do |item|
-          item.draw
-        end
-
-        # doesn't draw over input items (buttons, text boxes, etc) >:(
-        @background.draw if @background.foreground?
       end
 
       ##
@@ -232,7 +200,7 @@ class PirateGame::ClientApp
                   @client.clicked item
                 end
 
-              @extra_items << bridge_button
+              @background.add_extra_item bridge_button
             end
           end
         end

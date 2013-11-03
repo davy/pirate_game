@@ -5,6 +5,19 @@ class PirateGame::Background
   def initialize shoes, state=nil
     @shoes = shoes
     set_state state
+
+    @items = []
+
+    @items << PirateGame::Wave.new(@shoes, -20, 13)
+    @items << PirateGame::Wave.new(@shoes, 0, 30)
+
+    image = File.expand_path '../../../imgs/pirate_ship_sm.png', __FILE__
+
+    @items << PirateGame::Image.new(@shoes, image, 66, 55)
+
+    [[20, 7], [40, 42], [60, -3], [80, 22]].each do |top, seed|
+      @items << PirateGame::Wave.new(@shoes, top, seed)
+    end
   end
 
   def set_state state
@@ -31,7 +44,34 @@ class PirateGame::Background
   end
 
   def draw
-    @shoes.background color
+    randomize_state
+
+    @shoes.background color unless foreground?
+
+    @items.each do |item|
+      item.draw
+    end
+
+    @extra_items = []
+
+    yield if block_given?
+
+    @extra_items.each do |item|
+      item.draw
+    end
+
+    # doesn't draw over input items (buttons, text boxes, etc) >:(
+    @shoes.background color if foreground?
+  end
+
+  def add_extra_item item
+    @extra_items << item
+  end
+
+  def animate frame
+    (@items + @extra_items).each do |item|
+      item.animate frame
+    end
   end
 
   def foreground?
