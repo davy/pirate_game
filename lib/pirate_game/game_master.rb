@@ -33,7 +33,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   end
 
   def registrations_text
-    "Num Players: #{@num_players}\n#{@player_names.join(', ')}"
+    "Num Players: #{@num_players}\n#{@player_names.join(', ')}\n"
   end
 
   def stage_info
@@ -48,7 +48,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
       rundown = @stage.rundown
 
-      info << "Total Actions: #{rundown[:total_actions]}\n"
+      info << "Actions: #{rundown[:total_actions]}\n"
 
       rundown[:player_breakdown].each do |player_uri, actions|
         info << "#{player_uri}: #{actions}\n"
