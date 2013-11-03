@@ -62,11 +62,11 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
   end
 
   def test_actions_completed
-    assert_equal 0, @stage.actions_completed.length
+    assert_equal 0, @stage.actions_completed
 
     @stage.complete 'Foo', 'from bob'
 
-    assert_equal 1, @stage.actions_completed.length
+    assert_equal 1, @stage.actions_completed
   end
 
   def test_required_actions

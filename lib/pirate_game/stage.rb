@@ -3,6 +3,7 @@ require 'pirate_command'
 class PirateGame::Stage
 
   attr_accessor :actions_completed
+  attr_accessor :player_stats
   attr_accessor :all_items
   attr_accessor :begin_time
   attr_accessor :level
@@ -18,7 +19,8 @@ class PirateGame::Stage
   def initialize(level, players)
     @level = level
     @players = players
-    @actions_completed = []
+    @actions_completed = 0
+    @player_stats = {}
     generate_all_items
 
     @begin_time = Time.now
@@ -67,7 +69,9 @@ class PirateGame::Stage
   end
 
   def complete action, from
-    @actions_completed << {action: action, performer: from}
+    @actions_completed += 1
+    @player_stats[from] ||= []
+    @player_stats[from] << action
   end
 
   def required_actions
@@ -75,20 +79,16 @@ class PirateGame::Stage
   end
 
   def passed?
-    @actions_completed.length >= required_actions
+    @actions_completed >= required_actions
   end
 
   def rundown
     return if status == IN_PROGRESS
 
-    rundown = {stage: @level, total_actions: @actions_completed.length}
+    rundown = {stage: @level, total_actions: @actions_completed}
     rundown[:player_breakdown] = {}
 
-    @actions_completed.collect{|a| a[:performer]}.uniq.each do |p|
-      actions = @actions_completed.select{|a| a[:performer] == p}
-
-      rundown[:player_breakdown][p] = actions.length
-    end
+    @player_stats.each {|p,v| rundown[:player_breakdown][p] = v.size}
 
     rundown
   end
