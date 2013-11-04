@@ -5,6 +5,7 @@ end
 require 'pirate_game/animation'
 require 'pirate_game/background'
 require 'pirate_game/boot'
+require 'pirate_game/waving_item'
 require 'pirate_game/bridge'
 require 'pirate_game/bridge_button'
 require 'pirate_game/client'

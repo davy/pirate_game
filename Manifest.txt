@@ -26,7 +26,7 @@ lib/pirate_game/shoes4_patch.rb
 lib/pirate_game/stage.rb
 lib/pirate_game/timeout_renewer.rb
 lib/pirate_game/wave.rb
-state_diagram.graffle
+lib/pirate_game/waving_item.rb
 test/test_pirate_game_bridge.rb
 test/test_pirate_game_client.rb
 test/test_pirate_game_game_master.rb
