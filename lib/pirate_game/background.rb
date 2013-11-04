@@ -1,6 +1,6 @@
 class PirateGame::Background
 
-  STATES = [:clear, :foggy]
+  STATES = [:clear, :foggy, :windy]
 
   def initialize shoes, state=nil
     @shoes = shoes
@@ -29,16 +29,29 @@ class PirateGame::Background
     case rand
     when 0.0..0.1
       @state = :foggy
+    when 0.2..0.3
+      @state = :windy
     else
       @state = :clear
     end
+  end
+
+  def send_speed_to_items
+    case @state
+    when :windy
+      all_items.each {|item| item.speed = :fast}
+    end
+  end
+
+  def all_items
+    @items + @extra_items
   end
 
   def color
     case @state
     when :foggy
       @shoes.rgb(105, 138, 150, 180)
-    else # :clear
+    else # :clear, :windy
       PirateGame::Boot::SKY_COLOR
     end
   end
@@ -62,6 +75,8 @@ class PirateGame::Background
 
     # doesn't draw over input items (buttons, text boxes, etc) >:(
     @shoes.background color if foreground?
+
+    send_speed_to_items
   end
 
   def add_extra_item item
@@ -69,7 +84,7 @@ class PirateGame::Background
   end
 
   def animate frame
-    (@items + @extra_items).each do |item|
+    all_items.each do |item|
       item.animate frame
     end
   end

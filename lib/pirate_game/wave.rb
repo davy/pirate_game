@@ -3,7 +3,6 @@ class PirateGame::Wave < PirateGame::WavingItem
   COLORS = PirateGame::Boot::BLUE_COLORS + PirateGame::Boot::GREEN_COLORS
 
   OFFSET = 230
-
   SIZE   = 40
 
   def initialize shoes, top, seed
@@ -24,7 +23,7 @@ class PirateGame::Wave < PirateGame::WavingItem
   end
 
   def draw
-    for i in (-1..10) do
+    for i in (-3..12) do
       for j in [0,2,4] do
         color_index = (@seed + j) % COLORS.size
         @shoes.fill @clear
