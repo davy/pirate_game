@@ -228,8 +228,11 @@ class PirateGame::ClientApp
         @items_animation.stop if @items_animation
 
         clear do
+          jolly_roger = File.expand_path '../../../imgs/jolly_roger_sm.png', __FILE__
           background PirateGame::Boot::COLORS[:dark]
-          image File.expand_path '../../../imgs/jolly_roger_sm.png', __FILE__
+          background jolly_roger, height: 256
+          background rgb(0, 0, 0, 180)
+
           stack margin: 20 do
 
             title "END OF GAME", stroke: PirateGame::Boot::COLORS[:light]
