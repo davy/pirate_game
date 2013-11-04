@@ -1,6 +1,8 @@
-class PirateGame::Image
+class PirateGame::Image < PirateGame::WavingItem
 
   def initialize shoes, image, top, left
+    super 0, 10, 4
+
     @shoes = shoes
     @image = image
     @top   = top
@@ -8,7 +10,7 @@ class PirateGame::Image
   end
 
   def animate frame
-    top_offset, left_offset = PirateGame::Boot.waving_offset frame, 0, 10, 4
+    top_offset, left_offset = waving_offset frame
 
     @ship.move @top + top_offset, @left + left_offset
   end
