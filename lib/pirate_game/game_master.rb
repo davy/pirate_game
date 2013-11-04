@@ -146,7 +146,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   def send_end_game_to_clients
     each_client do |client|
-      client.end_game
+      client.end_game game_rundown
     end
   end
 

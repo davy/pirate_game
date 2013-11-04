@@ -30,6 +30,11 @@ class PirateGame::Client < Shuttlecraft
 
   attr_reader :current_action
 
+  ##
+  # Bucket for data being sent from game master
+
+  attr_reader :slop_bucket
+
   def initialize(opts={})
     opts[:protocol] ||= PirateGame::Protocol.default
 
@@ -43,6 +48,8 @@ class PirateGame::Client < Shuttlecraft
     @completion_time = 10
     @current_action  = nil
     @log_book        = PirateGame::LogBook.new
+
+    @slop_bucket = {}
   end
 
   def action_time_left
@@ -92,8 +99,10 @@ class PirateGame::Client < Shuttlecraft
     self.state = :pub
   end
 
-  def end_game
+  def end_game data
     self.state = :end
+
+    @slop_bucket[:end_game] = data
   end
 
   def teammates
