@@ -1,4 +1,4 @@
-class PirateGame::Wave
+class PirateGame::Wave < PirateGame::WavingItem
 
   COLORS = PirateGame::Boot::BLUE_COLORS + PirateGame::Boot::GREEN_COLORS
 
@@ -7,17 +7,16 @@ class PirateGame::Wave
   SIZE   = 40
 
   def initialize shoes, top, seed
+    super seed, SIZE, 5
+
     @shoes = shoes
     @top   = top + OFFSET
-    @seed  = seed
-
     @arcs  = []
     @clear = @shoes.rgb 0, 0, 0, 0
   end
 
   def animate frame
-    top_offset, left_offset =
-      PirateGame::Boot.waving_offset frame, @seed, SIZE, 5
+    top_offset, left_offset = waving_offset frame
 
     @arcs.each do |arc, top, left|
       arc.move top + top_offset, left + left_offset
