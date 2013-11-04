@@ -78,6 +78,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     return {} if @stage_ary.empty?
 
     rundown = {
+      :total_stages => @stage_ary.length,
       :total_actions => @stage_ary.inject(0) {|sum,stage| sum += stage.actions_completed},
       :player_breakdown => {}}
 
