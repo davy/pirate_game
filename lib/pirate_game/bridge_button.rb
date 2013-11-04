@@ -1,8 +1,10 @@
-class PirateGame::BridgeButton
+class PirateGame::BridgeButton < PirateGame::WavingItem
 
   TOP = 150
 
   def initialize shoes, text, row, column, &click_action
+    super rand(90), 10, 4
+
     @shoes        = shoes
     @text         = text
     @row          = row
@@ -11,12 +13,11 @@ class PirateGame::BridgeButton
 
     @button = nil
     @left   = nil
-    @seed   = rand 90
     @top    = nil
   end
 
   def animate frame
-    top_offset, left_offset = PirateGame::Boot.waving_offset frame, @seed, 10, 4
+    top_offset, left_offset = waving_offset frame
 
     @button.move @top + top_offset, @left + left_offset
   end
