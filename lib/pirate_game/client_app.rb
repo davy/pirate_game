@@ -191,7 +191,8 @@ class PirateGame::ClientApp
         pirate_ship do
           title PirateCommand.exclaim!, stroke: PirateGame::Boot::COLORS[:dark]
 
-          @instruction = flow margin: 20
+          @instruction = caption stroke: PirateGame::Boot::COLORS[:dark]
+          @progress = progress
 
           @client.bridge.items.each_slice(3).with_index do |items, row|
             items.each_with_index do |item, column|
@@ -205,13 +206,13 @@ class PirateGame::ClientApp
           end
         end
 
-        @stage_animation = animate(1) {
+        @stage_animation = animate(10) {
           @client.issue_command unless @client.waiting?
 
-          @instruction.clear do
-            para @client.action_time_left.to_i, stroke: PirateGame::Boot::COLORS[:dark]
-            para @client.current_action, stroke: PirateGame::Boot::COLORS[:dark]
-          end
+          @instruction.replace @client.current_action
+
+          progress_fraction = (@client.action_time_left.to_f / @client.completion_time.to_f)
+          @progress.fraction = progress_fraction
         }
       rescue DRb::DRbConnError
         @client.state = @state = :select_game
