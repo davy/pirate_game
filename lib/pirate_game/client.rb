@@ -38,7 +38,7 @@ class PirateGame::Client < Shuttlecraft
   def initialize(opts={})
     opts[:protocol] ||= PirateGame::Protocol.default
 
-    super(opts)
+    super(opts.merge({:verbose => true}))
 
     self.state = :select_game
 

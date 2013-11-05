@@ -21,7 +21,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   def initialize(opts={})
     opts[:protocol] ||= PirateGame::Protocol.default
 
-    super(opts)
+    super(opts.merge({:verbose => true}))
 
     @last_update  = Time.at 0
     @num_players  = 0
