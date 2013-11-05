@@ -2,7 +2,7 @@ class PirateGame::Wave < PirateGame::WavingItem
 
   COLORS = PirateGame::Boot::BLUE_COLORS + PirateGame::Boot::GREEN_COLORS
 
-  OFFSET = 230
+  OFFSET = 210
   SIZE   = 40
 
   def initialize shoes, top
