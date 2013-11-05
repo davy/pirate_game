@@ -40,7 +40,7 @@ class PirateGame::Client < Shuttlecraft
 
     super(opts.merge({:verbose => true}))
 
-    self.state = :select_game
+    set_state :select_game
 
     @bridge          = nil
     @command_start   = nil
@@ -58,7 +58,7 @@ class PirateGame::Client < Shuttlecraft
     @command_start - Time.now + @completion_time
   end
 
-  def state= state
+  def set_state state
     raise RuntimeError, "invalid state #{state}" unless STATES.include? state
 
     @state = state
@@ -85,22 +85,22 @@ class PirateGame::Client < Shuttlecraft
   end
 
   def register
-    self.state = :pub
+    set_state :pub
     super
   end
 
   def start_stage(bridge, all_items)
     @bridge = PirateGame::Bridge.new(bridge, all_items)
-    self.state = :stage
+    set_state :stage
   end
 
   def return_to_pub
     @bridge = nil
-    self.state = :pub
+    set_state :pub
   end
 
   def end_game data
-    self.state = :end
+    set_state :end
 
     @slop_bucket[:end_game] = data
   end

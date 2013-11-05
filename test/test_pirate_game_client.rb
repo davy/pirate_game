@@ -17,13 +17,13 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     assert_equal :select_game, @client.state
   end
 
-  def test_state_equals
-    @client.state = :pub
+  def test_set_state
+    @client.set_state :pub
 
     assert_equal :pub, @client.state
 
     assert_raises RuntimeError do
-      @client.state = :foobar
+      @client.set_state :foobar
     end
 
     assert_equal :pub, @client.state
