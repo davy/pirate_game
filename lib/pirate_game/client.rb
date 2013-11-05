@@ -45,7 +45,7 @@ class PirateGame::Client < Shuttlecraft
     @bridge          = nil
     @command_start   = nil
     @command_thread  = nil
-    @completion_time = 10
+    @completion_time = PirateGame::Boot.config["action_duration"]
     @current_action  = nil
     @log_book        = PirateGame::LogBook.new
 

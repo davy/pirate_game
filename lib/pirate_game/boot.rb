@@ -1,4 +1,5 @@
 require 'shoes/color'
+require 'json'
 
 module PirateGame
   module Boot
@@ -26,6 +27,23 @@ module PirateGame
                     Shoes::COLORS[:seagreen],
                     Shoes::COLORS[:teal]
     ]
+
+    def self.config_file
+      File.expand_path '../../../config.json', __FILE__
+    end
+
+    def self.config_hash
+      begin
+        JSON.parse(open(self.config_file).read)
+      rescue
+        {"stage_duration" => 30, "action_duration" => 8}
+      end
+    end
+
+    def self.config
+      @config ||= self.config_hash
+      @config
+    end
 
     def self.waving_offset(frame, seed, delta_x, delta_y, speed = :normal)
       t1 = frame + seed
