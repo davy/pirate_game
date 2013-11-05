@@ -34,7 +34,7 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
 
     @client.issue_command 'Test'
 
-    assert_in_epsilon 10, @client.action_time_left, 0.1
+    assert_in_epsilon 8, @client.action_time_left, 0.1
   end
 
   def test_clicked
@@ -79,7 +79,7 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
   def test_renewer
     renewer = @client.renewer
 
-    assert_equal 10, renewer.renew
+    assert_equal 8, renewer.renew
   end
 
   def test_return_to_pub
