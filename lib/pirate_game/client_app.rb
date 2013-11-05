@@ -237,7 +237,12 @@ class PirateGame::ClientApp
 
             title "END OF GAME", stroke: PirateGame::Boot::COLORS[:light]
 
-            # TODO: need to display game stats
+            if @client.slop_bucket[:end_game]
+              game_stats = @client.slop_bucket[:end_game]
+              para "Game Stats", stroke: PirateGame::Boot::COLORS[:light]
+              para "Total Actions: #{game_stats[:total_actions]}", stroke: PirateGame::Boot::COLORS[:light]
+              para "My Contribution: #{game_stats[:player_breakdown][DRb.uri]}", stroke: PirateGame::Boot::COLORS[:light]
+            end
           end
         end
       rescue DRb::DRbConnError
