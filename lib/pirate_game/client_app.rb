@@ -241,6 +241,7 @@ class PirateGame::ClientApp
             if @client.slop_bucket[:end_game]
               game_stats = @client.slop_bucket[:end_game]
               para "Game Stats", stroke: PirateGame::Boot::COLORS[:light]
+              para "Total Stages Completed: #{game_stats[:total_stages]}", stroke: PirateGame::Boot::COLORS[:light]
               para "Total Actions: #{game_stats[:total_actions]}", stroke: PirateGame::Boot::COLORS[:light]
               para "My Contribution: #{game_stats[:player_breakdown][DRb.uri]}", stroke: PirateGame::Boot::COLORS[:light]
             end
