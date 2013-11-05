@@ -5,8 +5,8 @@ class PirateGame::Wave < PirateGame::WavingItem
   OFFSET = 230
   SIZE   = 40
 
-  def initialize shoes, top, seed
-    super seed, SIZE, 5
+  def initialize shoes, top
+    super rand(40), SIZE, 5
 
     @shoes = shoes
     @top   = top + OFFSET

@@ -8,15 +8,15 @@ class PirateGame::Background
 
     @items = []
 
-    @items << PirateGame::Wave.new(@shoes, -20, 13)
-    @items << PirateGame::Wave.new(@shoes, 0, 30)
+    @items << PirateGame::Wave.new(@shoes, -20)
+    @items << PirateGame::Wave.new(@shoes, 0)
 
     image = File.expand_path '../../../imgs/pirate_ship_sm.png', __FILE__
 
     @items << PirateGame::Image.new(@shoes, image, 66, 55)
 
-    [[20, 7], [40, 42], [60, -3], [80, 22]].each do |top, seed|
-      @items << PirateGame::Wave.new(@shoes, top, seed)
+    [20, 40, 60, 80].each do |top|
+      @items << PirateGame::Wave.new(@shoes, top)
     end
   end
 
