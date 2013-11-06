@@ -45,7 +45,9 @@ module PirateGame
             end
             animate(5) {
 
-              update_start_button
+              detect_state_change {
+                update_start_button
+              }
 
               detect_stage_status_change {
                 @game_master.send_stage_info_to_clients
@@ -62,17 +64,15 @@ module PirateGame
         # Responsible for updating the display of the START button
 
         def update_start_button
-          detect_state_change {
-            @button_stack.clear do
+          @button_stack.clear do
 
-              case @state
-              when :startable
-                button('START') {
-                  @game_master.start
-                }
-              end
+            case @state
+            when :startable
+              button('START') {
+                @game_master.start
+              }
             end
-          }
+          end
         end
 
         ##
