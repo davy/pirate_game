@@ -113,11 +113,15 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   end
 
   def increment_stage
-    if @stage
-      @stage.increment
-    else
-      PirateGame::Stage.new 1, @num_players
-    end
+    @stage =
+      if @stage
+        @stage.increment
+      else
+        PirateGame::Stage.new 1, @num_players
+      end
+
+    @stage_ary << @stage
+    @stage
   end
 
   def on_registration
@@ -127,8 +131,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   def start
     return unless startable?
 
-    @stage = increment_stage
-    @stage_ary << @stage
+    increment_stage
 
     return true
   end

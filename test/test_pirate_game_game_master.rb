@@ -16,6 +16,23 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
     assert_nil @game_master.stage
   end
 
+  def test_increment_stage
+    assert_nil @game_master.stage
+    assert_empty @game_master.stage_ary
+
+    @game_master.increment_stage
+
+    refute_nil @game_master.stage
+    assert_equal 1, @game_master.stage.level
+    assert_equal 1, @game_master.stage_ary.length
+
+    @game_master.increment_stage
+
+    refute_nil @game_master.stage
+    assert_equal 2, @game_master.stage.level
+    assert_equal 2, @game_master.stage_ary.length
+  end
+
   def test_startable_eh
 
     # should not be startable when no players exist
@@ -54,10 +71,10 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
     assert_equal 1, @game_master.stage.level
     assert_equal 1, @game_master.stage_ary.length
 
-    @game_master.stage.begin_time = Time.at 0
     10.times do
       @game_master.stage.complete 'test', 'test'
     end
+    @game_master.stage.begin_time = Time.at 0
 
     assert @game_master.start
     assert_equal 2, @game_master.stage.level
