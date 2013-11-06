@@ -46,7 +46,7 @@ module PirateGame
             animate(5) {
 
               detect_state_change {
-                update_start_button
+                update_button_stack
               }
 
               detect_stage_status_change {
@@ -63,7 +63,7 @@ module PirateGame
         ##
         # Responsible for updating the display of the START button
 
-        def update_start_button
+        def update_button_stack
           @button_stack.clear do
 
             case @state
