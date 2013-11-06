@@ -62,9 +62,11 @@ module PirateGame
         # Responsible for updating the display of the START button
 
         def update_start_button
-          detect_startable_change {
+          detect_state_change {
             @button_stack.clear do
-              if @startable
+
+              case @state
+              when :startable
                 button('START') {
                   @game_master.start
                 }
@@ -74,12 +76,12 @@ module PirateGame
         end
 
         ##
-        # If the game_master.startable? state has changed, yields to the block.
+        # If the game_master.state has changed, yields to the block.
 
-        def detect_startable_change
-          return if @startable == @game_master.startable?
+        def detect_state_change
+          return if @state == @game_master.state
 
-          @startable = @game_master.startable?
+          @state = @game_master.state
 
           yield
         end
