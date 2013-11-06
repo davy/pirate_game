@@ -52,6 +52,10 @@ class PirateGame::Client < Shuttlecraft
     @slop_bucket = {}
   end
 
+  def self.default_name
+    "Blackbeard"
+  end
+
   def action_time_left
     return 0 unless waiting?
 
