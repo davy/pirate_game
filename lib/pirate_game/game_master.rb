@@ -6,7 +6,14 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   MIN_PLAYERS = 1 # for now
   MAX_PLAYERS = 4
 
+  STATES = [:pending, :startable, :playing, :ended]
+
   attr_accessor :stage, :stage_ary
+
+  ##
+  # The state of the game. See STATES.
+
+  attr_reader :state
 
   ##
   # Number of players in the game.  Call #update to refresh
@@ -22,6 +29,8 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     opts[:protocol] ||= PirateGame::Protocol.default
 
     super(opts.merge({:verbose => true}))
+
+    set_state :pending
 
     @last_update  = Time.at 0
     @num_players  = 0
@@ -111,6 +120,10 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     end
   end
 
+  def on_registration
+    set_state :startable if startable?
+  end
+
   def start
     return unless startable?
 
@@ -122,12 +135,15 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   def send_stage_info_to_clients
     if @stage.in_progress?
+      set_state :playing
       send_start_to_clients
 
     elsif @stage.success?
+      set_state :startable
       send_return_to_pub_to_clients
 
     elsif @stage.failure?
+      set_state :ended
       send_end_game_to_clients
     end
   end
@@ -177,6 +193,12 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     @player_names = @registered_services_ary.map { |name,| name }
 
     ret
+  end
+
+  private
+
+  def set_state state
+    @state = state if STATES.include? state
   end
 
 end
