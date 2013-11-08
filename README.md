@@ -4,6 +4,10 @@
 
 ## Description
 
+You insouciant scalawags will share the experience of a lifetime as you play a game built atop DRb and Shoes based generally upon the phenomenon known as Spaceteam! Except with Pirates!!
+
+Team up with your fellow pirates to plunder the high seas! Yarrrr….☠
+
 ## INSTALL
 
  * Install jruby, bundler
