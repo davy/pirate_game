@@ -43,8 +43,8 @@ module PirateGame
               @stage_info = para stroke: Boot::COLORS[:dark]
               @game_info = para stroke: Boot::COLORS[:dark]
             end
-            animate(5) {
 
+            animate(5) {
               detect_state_change {
                 update_button_stack
               }
