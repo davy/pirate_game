@@ -75,7 +75,7 @@ class PirateGame::Stage
   end
 
   def required_actions
-    @players * (@level+2) + 1
+    @level * 2 + 1
   end
 
   def passed?
