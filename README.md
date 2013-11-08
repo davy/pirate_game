@@ -40,13 +40,13 @@ $ gem install pirate_game
 
 ```
 $ ring_server
-$ shoes4 game_master
+$ shoes4 bin/game_master
 ```
 
  * Players run pirate_game
 
 ```
-$ shoes4 pirate_game
+$ shoes4 bin/pirate_game
 ```
 
 ## Credits
