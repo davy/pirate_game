@@ -12,7 +12,6 @@ module PirateGame
     def run
       Shoes.app width: 360, height: 360, resizeable: false, title: 'Game Master' do
 
-
         def launch_screen
           clear do
             background Boot::COLORS[:dark]
