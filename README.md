@@ -39,10 +39,10 @@ $ ring_server
 $ shoes4 game_master
 ```
 
- * Players run game_client
+ * Players run pirate_game
 
 ```
-$ shoes4 game_client
+$ shoes4 pirate_game
 ```
 
 ## Credits
