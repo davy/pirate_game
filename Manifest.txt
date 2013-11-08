@@ -3,8 +3,9 @@ History.rdoc
 Manifest.txt
 README.md
 Rakefile
-bin/game_client
 bin/game_master
+bin/pirate_game
+config.json
 imgs/jolly_roger.jpg
 imgs/jolly_roger_sm.png
 imgs/pirate_ship.png
@@ -27,6 +28,7 @@ lib/pirate_game/stage.rb
 lib/pirate_game/timeout_renewer.rb
 lib/pirate_game/wave.rb
 lib/pirate_game/waving_item.rb
+state_diagram.graffle
 test/test_pirate_game_bridge.rb
 test/test_pirate_game_client.rb
 test/test_pirate_game_game_master.rb
