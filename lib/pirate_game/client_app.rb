@@ -43,7 +43,8 @@ class PirateGame::ClientApp
       # Sets the application state
 
       def state= state
-        @client.state = @state = state
+        @state = state
+        @client.set_state @state
       end
 
       ##
@@ -128,8 +129,7 @@ class PirateGame::ClientApp
           }
         end
       rescue DRb::DRbConnError
-        @client.state = @state = :select_game
-
+        state = :select_game
         select_game_screen
       end
 
@@ -173,8 +173,7 @@ class PirateGame::ClientApp
           }
         end
       rescue DRb::DRbConnError
-        @client.state = @state = :select_game
-
+        state = :select_game
         select_game_screen
       end
 
@@ -215,8 +214,7 @@ class PirateGame::ClientApp
           @progress.fraction = progress_fraction
         }
       rescue DRb::DRbConnError
-        @client.state = @state = :select_game
-
+        state = :select_game
         select_game_screen
       end
 
@@ -248,8 +246,7 @@ class PirateGame::ClientApp
           end
         end
       rescue DRb::DRbConnError
-        @client.state = @state = :select_game
-
+        state = :select_game
         select_game_screen
       end
 
