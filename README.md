@@ -8,23 +8,35 @@
 
  * Install jruby, bundler
  * Install shoes4: [shoes4 install instructions](https://github.com/shoes/shoes4)
-    $ git clone http://github.com/shoes/shoes4
-    $ git checkout 7d0a1eefea601917dd01419b14ded2812d0acb9f
-    $ gem build shoes.gemspec
-    $ gem install shoes-4.0.0.pre1
-    $ alias shoes4='/path/to/shoes4/bin/shoes'
+
+```
+$ git clone http://github.com/shoes/shoes4
+$ git checkout 7d0a1eefea601917dd01419b14ded2812d0acb9f
+$ gem build shoes.gemspec
+$ gem install shoes-4.0.0.pre1
+$ alias shoes4='/path/to/shoes4/bin/shoes'
+```
+
  * Install pirate_game
-    $ gem install pirate_game
+
+```
+$ gem install pirate_game
+```
 
 ## RUN GAME
 
  * One person runs game_master
 
-    $ ring_server
-    $ shoes4 game_master
+```
+$ ring_server
+$ shoes4 game_master
+```
 
  * Players run game_client
-    $ shoes4 game_client
+
+```
+$ shoes4 game_client
+```
 
 ## Credits
 
