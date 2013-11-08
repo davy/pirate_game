@@ -271,8 +271,6 @@ class PirateGame::ClientApp
 
       def update_chat_room
         if @registered
-          @chat_title.replace "Pub Chat: #{@client.teammates.join(', ')}"
-
           @chat_messages.clear do
             for msg, name in @client.log_book
               para "#{name} said: #{msg}", stroke: PirateGame::Boot::COLORS[:light]
