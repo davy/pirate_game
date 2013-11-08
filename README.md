@@ -21,13 +21,6 @@ $ gem install shoes-4.0.0.pre1
 $ alias shoes4='/path/to/shoes4/bin/shoes'
 ```
 
- * Install shuttlecraft (until released)
-
-```
-$ git clone http://github.com/davy/shuttlecraft
-$ rake install_gem
-```
-
  * Install pirate_game
 
 ```

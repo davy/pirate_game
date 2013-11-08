@@ -14,7 +14,7 @@ Hoe.spec 'pirate_game' do
 
   extra_deps << ['json', '~> 1.8.0']
   extra_deps << ['pirate_command', '~> 0.0.2']
-  #extra_deps << ['shuttlecraft', '~> 0.0.1']
+  extra_deps << ['shuttlecraft', '~> 0.0']
 
   license 'MIT'
 
