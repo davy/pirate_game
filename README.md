@@ -18,8 +18,10 @@ $ git clone http://github.com/shoes/shoes4
 $ git checkout 7d0a1eefea601917dd01419b14ded2812d0acb9f
 $ gem build shoes.gemspec
 $ gem install shoes-4.0.0.pre1.gem
-$ alias shoes4='/path/to/shoes4/bin/shoes'
+$ alias shoes4='/path/to/gems/shoes-4.0.0.pre1/bin/shoes'
 ```
+
+Note that you need to alias the executable in the shoes gem dir, not the default executable.  You can find the path where shoes is installed with `gem which shoes`.  The executable is in the `bin` dir next to `lib`.
 
  * Install pirate_game
 
