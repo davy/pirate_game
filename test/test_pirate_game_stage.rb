@@ -70,21 +70,21 @@ class TestPirateGameStage < MiniTest::Unit::TestCase
   end
 
   def test_required_actions
-    assert_equal 10, @stage.required_actions
+    assert_equal 3, @stage.required_actions
 
     @stage = PirateGame::Stage.new(5, 4)
 
-    assert_equal 29, @stage.required_actions
+    assert_equal 11, @stage.required_actions
 
     @stage = PirateGame::Stage.new(10, 2)
 
-    assert_equal 25, @stage.required_actions
+    assert_equal 21, @stage.required_actions
   end
 
   def test_stage_passed_eh
     refute @stage.passed?
 
-    9.times do
+    2.times do
       @stage.complete 'foo', 'bar'
     end
 
