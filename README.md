@@ -11,7 +11,7 @@ Team up with your fellow pirates to plunder the high seas! Yarrrr….☠
 ## INSTALL
 
  * Install jruby (1.7.4, 1.7.5, 1.7.6 all should work), bundler
- * Install shoes4: [shoes4 install instructions](https://github.com/shoes/shoes4)
+ * Install shoes4
 
 ```
 $ git clone http://github.com/shoes/shoes4
