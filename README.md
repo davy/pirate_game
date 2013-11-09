@@ -17,7 +17,7 @@ Team up with your fellow pirates to plunder the high seas! Yarrrr….☠
 $ git clone http://github.com/shoes/shoes4
 $ git checkout 7d0a1eefea601917dd01419b14ded2812d0acb9f
 $ gem build shoes.gemspec
-$ gem install shoes-4.0.0.pre1
+$ gem install shoes-4.0.0.pre1.gem
 $ alias shoes4='/path/to/shoes4/bin/shoes'
 ```
 
