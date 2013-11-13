@@ -7,7 +7,7 @@
 module PirateGame
 
   ##
-  # This version of PirateGame you are running
+  # The version of PirateGame you are running
 
   VERSION = '0.0.1'
 
