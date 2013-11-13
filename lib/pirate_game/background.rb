@@ -1,6 +1,18 @@
+##
+# Implements the background of a game client window
+
 class PirateGame::Background
 
+  ##
+  # The background states.
+
   STATES = [:clear, :foggy, :windy]
+
+  ##
+  # Creates a new game background which will draw using the +shoes+ instance.
+  #
+  # You can also provide a +state+ for the weather which must be one of the
+  # STATES.
 
   def initialize shoes, state=nil
     @shoes = shoes
@@ -20,10 +32,16 @@ class PirateGame::Background
     end
   end
 
+  ##
+  # Sets the background +state+ which must be one of the given STATES.
+
   def set_state state
     @state = state if STATES.include?(state)
     @state ||= :clear
   end
+
+  ##
+  # Chooses a random state for the Background.
 
   def randomize_state
     case rand
@@ -36,18 +54,27 @@ class PirateGame::Background
     end
   end
 
-  def send_speed_to_items
+  ##
+  # Adjust the movement speed of the items in the Background.
+
+  def send_speed_to_items # :nodoc:
     case @state
     when :windy
       all_items.each {|item| item.speed = :fast}
     end
   end
 
-  def all_items
+  ##
+  # Returns all items in the Background.
+
+  def all_items # :nodoc:
     @items + @extra_items
   end
 
-  def color
+  ##
+  # Returns the color which is drawn behind all other items in the Background.
+
+  def color # :nodoc:
     case @state
     when :foggy
       @shoes.rgb(105, 138, 150, 180)
@@ -55,6 +82,9 @@ class PirateGame::Background
       PirateGame::Boot::SKY_COLOR
     end
   end
+
+  ##
+  # Draws the Background.
 
   def draw
     randomize_state
@@ -79,15 +109,26 @@ class PirateGame::Background
     send_speed_to_items
   end
 
+  ##
+  # Adds extra items to the Background for drawing.  Items must respond to
+  # #draw and #animate.
+
   def add_extra_item item
     @extra_items << item
   end
+
+  ##
+  # Updates the items in the background for the current +frame+.
 
   def animate frame
     all_items.each do |item|
       item.animate frame
     end
   end
+
+  ##
+  # Returns true if a foreground should be drawn over the items in the
+  # Background.
 
   def foreground?
     @state == :foggy
