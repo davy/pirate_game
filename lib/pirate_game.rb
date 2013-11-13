@@ -5,7 +5,12 @@
 # Rinda.
 
 module PirateGame
+
+  ##
+  # This version of PirateGame you are running
+
   VERSION = '0.0.1'
+
 end
 
 require 'pirate_game/animation'
