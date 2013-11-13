@@ -1,3 +1,9 @@
+##
+# Pirate Game is a
+# {Spaceteam}[http://www.sleepingbeastgames.com/spaceteam/]-like game with a
+# pirate theme that illustrates distributed programming concepts using DRb and
+# Rinda.
+
 module PirateGame
   VERSION = '0.0.1'
 end

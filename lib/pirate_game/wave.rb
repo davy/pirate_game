@@ -1,18 +1,38 @@
+##
+# An animated ocean wave
+
 class PirateGame::Wave < PirateGame::WavingItem
+
+  ##
+  # The possible colors of the wave
 
   COLORS = PirateGame::Boot::BLUE_COLORS + PirateGame::Boot::GREEN_COLORS
 
+  ##
+  # The default offset for a wave
+
   OFFSET = 210
+
+  ##
+  # The default size of the wave
+
   SIZE   = 40
 
-  def initialize shoes, top
+  ##
+  # Creates a new wave which will be drawn on the +shoes+ window at the given
+  # +offset+ from the default OFFSET.
+
+  def initialize shoes, offset
     super rand(40), SIZE, 5
 
     @shoes = shoes
-    @top   = top + OFFSET
+    @top   = offset + OFFSET
     @arcs  = []
     @clear = @shoes.rgb 0, 0, 0, 0
   end
+
+  ##
+  # Repositions the wave for the given +frame+.
 
   def animate frame
     top_offset, left_offset = waving_offset frame
@@ -21,6 +41,9 @@ class PirateGame::Wave < PirateGame::WavingItem
       arc.move top + top_offset, left + left_offset
     end
   end
+
+  ##
+  # Draws the wave on the window.
 
   def draw
     for i in (-3..12) do
