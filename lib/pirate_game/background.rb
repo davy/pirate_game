@@ -4,19 +4,19 @@
 class PirateGame::Background
 
   ##
-  # The background states.
+  # The background weather.
 
-  STATES = [:clear, :foggy, :windy]
+  WEATHER = [:clear, :foggy, :windy]
 
   ##
   # Creates a new game background which will draw using the +shoes+ instance.
   #
-  # You can also provide a +state+ for the weather which must be one of the
-  # STATES.
+  # You can also set the +weather+ for the background which must be one of the
+  # WEATHER items.
 
-  def initialize shoes, state=nil
+  def initialize shoes, weather=nil
     @shoes = shoes
-    set_state state
+    set_weather weather
 
     @items = []
 
@@ -33,24 +33,25 @@ class PirateGame::Background
   end
 
   ##
-  # Sets the background +state+ which must be one of the given STATES.
+  # Sets the background +weather+ which must be one of the given WEATHER
+  # items.
 
-  def set_state state
-    @state = state if STATES.include?(state)
-    @state ||= :clear
+  def set_weather weather
+    @weather = weather if WEATHER.include?(weather)
+    @weather ||= :clear
   end
 
   ##
-  # Chooses a random state for the Background.
+  # Chooses a random weather for the Background.
 
-  def randomize_state
+  def randomize_weather
     case rand
     when 0.0..0.1
-      @state = :foggy
+      @weather = :foggy
     when 0.2..0.3
-      @state = :windy
+      @weather = :windy
     else
-      @state = :clear
+      @weather = :clear
     end
   end
 
@@ -58,7 +59,7 @@ class PirateGame::Background
   # Adjust the movement speed of the items in the Background.
 
   def send_speed_to_items # :nodoc:
-    case @state
+    case @weather
     when :windy
       all_items.each {|item| item.speed = :fast}
     end
@@ -75,7 +76,7 @@ class PirateGame::Background
   # Returns the color which is drawn behind all other items in the Background.
 
   def color # :nodoc:
-    case @state
+    case @weather
     when :foggy
       @shoes.rgb(105, 138, 150, 180)
     else # :clear, :windy
@@ -87,7 +88,7 @@ class PirateGame::Background
   # Draws the Background.
 
   def draw
-    randomize_state
+    randomize_weather
 
     @shoes.background color unless foreground?
 
@@ -131,6 +132,6 @@ class PirateGame::Background
   # Background.
 
   def foreground?
-    @state == :foggy
+    @weather == :foggy
   end
 end
