@@ -88,8 +88,8 @@ module PirateGame::Boot
   # The +frame+ is the animation frame, used to compute the offset.  The
   # +seed+ allows randomization of the starting position of motion.  +delta_x+
   # and +delta_y+ are the coordinates of the item at rest.  The +speed+
-  # adjusts how fast the item moves.  Valid values are <code>:normal</code> or
-  # <code>:fast</code>.
+  # adjusts how fast the item moves.  Valid values are <code>:slow>/code>,
+  # <code>:normal</code> or <code>:fast</code>.
   #
   # Returns the x and y offsets of the item for the current frame.
 
