@@ -21,7 +21,7 @@ class PirateGame::WavingItem
   end
 
   ##
-  # Computes the current offset for the animation +frame+.
+  # Computes the current x and y rendering position for the animation +frame+.
 
   def waving_offset frame
     top_offset, left_offset =
