@@ -82,7 +82,6 @@ module PirateGame
 
         def update_button_stack
           @button_stack.clear do
-
             case @state
             when :startable
               button('START') {
@@ -105,6 +104,7 @@ module PirateGame
 
         ##
         # If the stage status has changed, yields to the block
+
         def detect_stage_status_change
           return unless @game_master.stage
           return if @stage_status == @game_master.stage.status
