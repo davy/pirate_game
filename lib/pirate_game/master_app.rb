@@ -1,3 +1,7 @@
+##
+# The MasterApp is the Shoes view of the game master which coordinates play
+# amongst the clients.
+
 class PirateGame::MasterApp
 
   ##
