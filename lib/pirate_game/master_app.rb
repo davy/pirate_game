@@ -1,16 +1,27 @@
 module PirateGame
   class MasterApp
 
+    ##
+    # Starts the master application.
+
     def self.run
       new.run
     end
 
-    def initialize
+    def initialize # :nodoc:
       @game_master = nil
     end
 
+    ##
+    # Creates a Shoes app for the game master and runs it.
+
     def run
       Shoes.app width: 360, height: 360, resizeable: false, title: 'Game Master' do
+
+        ##
+        # The launch screen asks for a game name that players can join.  When
+        # a name is chosen for the game and the game launched the
+        # display_screen is shown.
 
         def launch_screen
           clear do
@@ -27,6 +38,13 @@ module PirateGame
             end
           end
         end
+
+        ##
+        # The display screen shows a "start" button and the current game
+        # status.  The "start" button starts a new stage for the players.
+        #
+        # While a stage is in progress statistics will be shown on the number
+        # of actions completed and who completed them.
 
         def display_screen
           @game_master.update
