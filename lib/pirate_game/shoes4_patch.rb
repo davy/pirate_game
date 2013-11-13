@@ -1,4 +1,4 @@
-class Shoes
+class Shoes # :nodoc: all
   module Swt
     class Progress
       def fraction=(value)
