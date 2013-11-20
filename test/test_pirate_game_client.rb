@@ -46,7 +46,8 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
 
     assert_equal :button, tuple.shift
     assert_equal 'Test',  tuple.shift
-    assert_includes (Time.now.to_i - 1..Time.now.to_i), tuple.shift
+    time_range = (Time.now.to_i - 1..Time.now.to_i)
+    assert_includes time_range, tuple.shift
     assert_equal DRb.uri, tuple.shift
   end
 
@@ -54,7 +55,7 @@ class TestPirateGameClient < MiniTest::Unit::TestCase
     @client.issue_command 'Test'
 
     assert @client.waiting?
-    assert_match /Test/, @client.current_action
+    assert_match 'Test', @client.current_action
 
     @client.clicked 'Test'
 
