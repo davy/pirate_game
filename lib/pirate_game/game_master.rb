@@ -1,14 +1,36 @@
 require 'shuttlecraft/mothership'
 
+##
+# The game master coordinates players including chat, moving players through
+# the stages of a pirate game and deciding which actions are in play for the
+# current stage.
+
 class PirateGame::GameMaster < Shuttlecraft::Mothership
 
+  ##
+  # You can play with yourself because one player is all that's needed!
 
   MIN_PLAYERS = 1 # for now
+
+  ##
+  # Four is the maximum number of players.
+
   MAX_PLAYERS = 4
+
+  ##
+  # States of the game
 
   STATES = [:pending, :startable, :playing, :ended]
 
-  attr_accessor :stage, :stage_ary
+  ##
+  # The current game master stage.
+
+  attr_accessor :stage
+
+  ##
+  # The history of stages played.
+
+  attr_accessor :stage_ary
 
   ##
   # The state of the game. See STATES.
@@ -25,10 +47,14 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
   attr_reader :player_names
 
-  def initialize(opts={})
-    opts[:protocol] ||= PirateGame::Protocol.default
+  ##
+  # Creates a new game master.  +options+ are the same as for
+  # Shuttlecraft::Mothership
 
-    super(opts.merge({:verbose => true}))
+  def initialize(options={})
+    options[:protocol] ||= PirateGame::Protocol.default
+
+    super(options.merge({:verbose => true}))
 
     set_state :pending
 
@@ -41,9 +67,15 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     @action_watcher = create_action_watcher
   end
 
+  ##
+  # Text showing the number and names of players currently registered.
+
   def registrations_text
     "Num Players: #{@num_players}\n#{@player_names.join(', ')}\n"
   end
+
+  ##
+  # Text showing the state of the current stage.
 
   def stage_info
     return unless @stage
@@ -68,6 +100,9 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     info
   end
 
+  ##
+  # Statistics about the game progress.
+
   def game_info
     return if @stage_ary.empty?
 
@@ -82,6 +117,9 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
     info
   end
+
+  ##
+  # Creates a summary of stage and player activity for the current game.
 
   def game_rundown
     return {} if @stage_ary.empty?
@@ -101,9 +139,15 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     rundown
   end
 
+  ##
+  # True if more players can join the game
+
   def allow_registration?
     return (@stage.nil? && @num_players < MAX_PLAYERS)
   end
+
+  ##
+  # True if the game has enough players to start
 
   def startable?
     update!
@@ -111,6 +155,9 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
            @num_players >= MIN_PLAYERS &&
            @num_players <= MAX_PLAYERS
   end
+
+  ##
+  # Advances the game to the next stage.
 
   def increment_stage
     @stage =
@@ -124,9 +171,15 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     @stage
   end
 
+  ##
+  # This is called from Mothership when a new client joins.
+
   def on_registration
     set_state :startable if startable?
   end
+
+  ##
+  # Starts the current stage
 
   def start
     return unless startable?
@@ -135,6 +188,9 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
     return true
   end
+
+  ##
+  # Delivers stage progress information to clients.
 
   def send_stage_info_to_clients
     if @stage.in_progress?
@@ -151,6 +207,9 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     end
   end
 
+  ##
+  # Delivers the client's items and all items to all clients.
+
   def send_start_to_clients
     each_client do |client|
       bridge = @stage.bridge_for_player
@@ -158,17 +217,27 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     end
   end
 
+  ##
+  # Instructs clients to return to the pub.
+
   def send_return_to_pub_to_clients
     each_client do |client|
       client.return_to_pub
     end
   end
 
+  ##
+  # Instructs clients that they have failed and should be ashamed of their
+  # failure.
+
   def send_end_game_to_clients
     each_client do |client|
       client.end_game game_rundown
     end
   end
+
+  ##
+  # Watches for completed actions by the clients.
 
   def create_action_watcher
     Thread.new do
@@ -177,6 +246,9 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
       end
     end
   end
+
+  ##
+  # Updates the stage with a completed action.
 
   def handle_action action_array
     if @stage && @stage.in_progress?
@@ -199,6 +271,9 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   end
 
   private
+
+  ##
+  # Sets the current game state to +state+
 
   def set_state state
     @state = state if STATES.include? state
