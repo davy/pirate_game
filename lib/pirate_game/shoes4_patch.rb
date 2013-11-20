@@ -1,11 +1,5 @@
 class Shoes # :nodoc: all
   module Swt
-    class Progress
-      def fraction=(value)
-        @real.selection = (value*100).to_i unless @real.disposed?
-      end
-    end
-
     class TextBlockPainter
 
       # added the return statement on line 8
