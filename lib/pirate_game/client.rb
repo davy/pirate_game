@@ -68,13 +68,6 @@ class PirateGame::Client < Shuttlecraft
   end
 
   ##
-  # The default pirate name
-
-  def self.default_name
-    "Blackbeard"
-  end
-
-  ##
   # Number of seconds left for completing the current command
 
   def action_time_left
