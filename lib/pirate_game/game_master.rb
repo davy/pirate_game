@@ -126,7 +126,8 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
     rundown = {
       :total_stages => @stage_history.length,
-      :total_actions => @stage_history.inject(0) {|sum,stage| sum += stage.actions_completed},
+      :total_actions =>
+        @stage_history.map { |stage| stage.actions_completed }.reduce(:+),
       :player_breakdown => {}}
 
     for stage in @stage_history
