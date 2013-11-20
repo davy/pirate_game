@@ -30,7 +30,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   ##
   # The history of stages played.
 
-  attr_accessor :stage_ary
+  attr_accessor :stage_history
 
   ##
   # The state of the game. See STATES.
@@ -58,11 +58,11 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
 
     set_state :pending
 
-    @last_update  = Time.at 0
-    @num_players  = 0
-    @player_names = []
-    @stage        = nil
-    @stage_ary    = []
+    @last_update   = Time.at 0
+    @num_players   = 0
+    @player_names  = []
+    @stage         = nil
+    @stage_history = []
 
     @action_watcher = create_action_watcher
   end
@@ -104,7 +104,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   # Statistics about the game progress.
 
   def game_info
-    return if @stage_ary.empty?
+    return if @stage_history.empty?
 
     info = "Game Rundown:\n"
     gr = game_rundown
@@ -122,14 +122,14 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   # Creates a summary of stage and player activity for the current game.
 
   def game_rundown
-    return {} if @stage_ary.empty?
+    return {} if @stage_history.empty?
 
     rundown = {
-      :total_stages => @stage_ary.length,
-      :total_actions => @stage_ary.inject(0) {|sum,stage| sum += stage.actions_completed},
+      :total_stages => @stage_history.length,
+      :total_actions => @stage_history.inject(0) {|sum,stage| sum += stage.actions_completed},
       :player_breakdown => {}}
 
-    for stage in @stage_ary
+    for stage in @stage_history
       stage.player_stats.each_pair do |key, value|
         rundown[:player_breakdown][key] ||= 0
         rundown[:player_breakdown][key] += value.size
@@ -167,7 +167,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
         PirateGame::Stage.new 1, @num_players
       end
 
-    @stage_ary << @stage
+    @stage_history << @stage
     @stage
   end
 
