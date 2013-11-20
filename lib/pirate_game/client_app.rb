@@ -1,9 +1,20 @@
+##
+# The ClientApp displays the pirate game client as a shoes application.
+
 class PirateGame::ClientApp
+
+  ##
+  # A shoes application that runs the pirate game client.
 
   def self.run
     @my_app = Shoes.app width: 360, height: 360, resizeable: false, title: 'Pirate Game' do
 
       require 'pirate_game/shoes4_patch'
+
+      ##
+      # Creates an animation block which ticks +fps+ times per second.
+      #
+      # Wraps the shoes animate method to provide DRb error handling.
 
       def animate fps, &block
         opts = { framerate: fps }
