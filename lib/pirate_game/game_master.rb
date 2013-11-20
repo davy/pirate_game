@@ -124,11 +124,14 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
   def game_rundown
     return {} if @stage_history.empty?
 
+    total_actions =
+        @stage_history.map { |stage| stage.actions_completed }.reduce(:+)
+
     rundown = {
-      :total_stages => @stage_history.length,
-      :total_actions =>
-        @stage_history.map { |stage| stage.actions_completed }.reduce(:+),
-      :player_breakdown => {}}
+      player_breakdown: {},
+      total_actions:    total_actions,
+      total_stages:     @stage_history.length,
+    }
 
     for stage in @stage_history
       stage.player_stats.each_pair do |key, value|
