@@ -81,6 +81,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     return unless @stage
 
     info = "Stage #{@stage.level}: \n"
+
     if @stage.in_progress?
       info << "Actions: #{@stage.actions_completed}\n"
       info << "Time Left: #{@stage.time_left.to_i} seconds\n"
@@ -94,7 +95,6 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
       rundown[:player_breakdown].each do |player_uri, actions|
         info << "#{player_uri}: #{actions}\n"
       end
-
     end
 
     info
@@ -125,7 +125,7 @@ class PirateGame::GameMaster < Shuttlecraft::Mothership
     return {} if @stage_history.empty?
 
     total_actions =
-        @stage_history.map { |stage| stage.actions_completed }.reduce(:+)
+      @stage_history.map { |stage| stage.actions_completed }.reduce(:+)
 
     rundown = {
       player_breakdown: {},
