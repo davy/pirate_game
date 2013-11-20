@@ -46,9 +46,20 @@ class PirateGame::Stage
 
   DURATION = PirateGame::Boot.config["stage_duration"]
 
-  IN_PROGRESS = 'In Progress'
-  SUCCESS = 'Success'
-  FAILURE = 'Failure'
+  ##
+  # The stage is in-progress
+
+  IN_PROGRESS = 'In Progress' # :nodoc:
+
+  ##
+  # The stage was completed successfully
+
+  SUCCESS = 'Success' # :nodoc:
+
+  ##
+  # The stage failed
+
+  FAILURE = 'Failure' # :nodoc:
 
   ##
   # Creates a new Stage for the +level+ and number of +players+
