@@ -3,6 +3,9 @@ require 'pirate_game'
 
 class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
+  ts = Rinda::TupleSpace.new
+  @@rs = Rinda::RingServer.new ts
+
   def setup
     @client = PirateGame::Client.new name: 'user'
 
@@ -18,19 +21,19 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
   def test_increment_stage
     assert_nil @game_master.stage
-    assert_empty @game_master.stage_ary
+    assert_empty @game_master.stage_history
 
     @game_master.increment_stage
 
     refute_nil @game_master.stage
     assert_equal 1, @game_master.stage.level
-    assert_equal 1, @game_master.stage_ary.length
+    assert_equal 1, @game_master.stage_history.length
 
     @game_master.increment_stage
 
     refute_nil @game_master.stage
     assert_equal 2, @game_master.stage.level
-    assert_equal 2, @game_master.stage_ary.length
+    assert_equal 2, @game_master.stage_history.length
   end
 
   def test_startable_eh
@@ -69,7 +72,7 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
     assert @game_master.stage
     assert_equal 1, @game_master.stage.level
-    assert_equal 1, @game_master.stage_ary.length
+    assert_equal 1, @game_master.stage_history.length
 
     10.times do
       @game_master.stage.complete 'test', 'test'
@@ -78,9 +81,9 @@ class TestPirateGameGameMaster < MiniTest::Unit::TestCase
 
     assert @game_master.start
     assert_equal 2, @game_master.stage.level
-    assert_equal 2, @game_master.stage_ary.length
+    assert_equal 2, @game_master.stage_history.length
 
-    assert_equal [1,2], @game_master.stage_ary.collect{|s| s.level}
+    assert_equal [1,2], @game_master.stage_history.collect{|s| s.level}
   end
 
   def test_update
