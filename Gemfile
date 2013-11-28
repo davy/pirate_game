@@ -14,6 +14,6 @@ gem "hoe-bundler", "~>1.2.0", :group => [:development, :test]
 gem "hoe", "~>3.7", :group => [:development, :test]
 
 ## MANUALLY ADDED
-gem 'shoes',  github: 'shoes/shoes4', :ref => '7d0a1eefea601917dd01419b14ded2812d0acb9f'
+gem 'shoes',  github: 'shoes/shoes4', :ref => 'b0d9f82914bce8535aa6e8ce24f602e578d1a2bf'
 
 # vim: syntax=ruby
